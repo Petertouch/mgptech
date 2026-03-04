@@ -5,13 +5,15 @@ const WHATSAPP_LINK = "https://wa.me/+573124426783?text=%C2%A1Hola%21%20Quiero%2
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden" aria-label="Inicio - OGF Real Estate">
       {/* Background Image with Overlay */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" aria-hidden="true">
         <img
           src={heroImage}
-          alt="Casa moderna de lujo"
+          alt="Proyecto de casa moderna terminada por OGF Real Estate en Florida"
           className="w-full h-full object-cover scale-105"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/60" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
@@ -20,20 +22,15 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 pt-32 pb-24">
         <div className="max-w-3xl">
-          {/* Headline */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-foreground mb-2 opacity-0 animate-fade-in-up animation-delay-200 leading-[1.1]">
-            Transformamos casas
-          </h1>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-foreground mb-3 opacity-0 animate-fade-in-up animation-delay-200 leading-[1.1]">
-            con historia en
-          </h1>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display mb-8 opacity-0 animate-fade-in-up animation-delay-200 leading-[1.1]">
+          {/* Headline - single h1 for SEO */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-foreground mb-8 opacity-0 animate-fade-in-up animation-delay-200 leading-[1.1]">
+            Transformamos casas con historia en{" "}
             <span className="text-gradient italic">inversiones con futuro</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-xl opacity-0 animate-fade-in-up animation-delay-400 leading-relaxed">
-            Construimos hogares desde cero y renovamos propiedades con potencial en Ohio, Georgia y Florida.
+            Construimos hogares desde cero y renovamos propiedades con potencial en <strong>Ohio</strong>, <strong>Georgia</strong> y <strong>Florida</strong>.
             Tu próxima inversión comienza aquí.
           </p>
 
@@ -43,9 +40,10 @@ const Hero = () => {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Escríbenos por WhatsApp para información sobre inversiones inmobiliarias"
               className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1eba59] text-white px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-[#25D366]/20 hover:shadow-xl hover:shadow-[#25D366]/30"
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
               Escríbenos Ahora
@@ -55,7 +53,7 @@ const Hero = () => {
           {/* Trust Indicators */}
           <div className="mt-14 flex flex-wrap gap-6 opacity-0 animate-fade-in-up animation-delay-600">
             <div className="flex items-center gap-2.5 text-sm text-muted-foreground/80">
-              <MapPin className="w-4 h-4 text-primary" />
+              <MapPin className="w-4 h-4 text-primary" aria-hidden="true" />
               <span className="tracking-wider uppercase text-xs font-medium">Ohio &mdash; Georgia &mdash; Florida</span>
             </div>
           </div>
@@ -63,7 +61,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float" aria-hidden="true">
         <div className="w-5 h-9 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
           <div className="w-1 h-2.5 bg-white/40 rounded-full animate-pulse" />
         </div>

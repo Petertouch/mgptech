@@ -29,7 +29,7 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
   };
 
   return (
-    <div
+    <figure
       ref={containerRef}
       className="relative w-full aspect-[3/2] overflow-hidden rounded-3xl cursor-col-resize select-none border border-white/5 shadow-2xl shadow-black/20"
       onMouseMove={handleMouseMove}
@@ -37,19 +37,22 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onTouchMove={handleTouchMove}
+      role="img"
+      aria-label={`Comparación antes y después: ${alt}`}
     >
       {/* After Image (full background) */}
-      <img src={after} alt={`${alt} - Después`} className="absolute inset-0 w-full h-full object-cover" />
+      <img src={after} alt={`${alt} - Después de la renovación por OGF Real Estate`} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
 
       {/* Before Image (clipped) */}
       <div className="absolute inset-0 overflow-hidden" style={{ width: `${sliderPosition}%` }}>
-        <img src={before} alt={`${alt} - Antes`} className="absolute inset-0 w-full h-full object-cover" style={{ minWidth: containerRef.current?.offsetWidth }} />
+        <img src={before} alt={`${alt} - Antes de la renovación`} className="absolute inset-0 w-full h-full object-cover" loading="lazy" style={{ minWidth: containerRef.current?.offsetWidth }} />
       </div>
 
       {/* Slider Handle */}
       <div
         className="absolute top-0 bottom-0 w-0.5 bg-white/80 cursor-col-resize"
         style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
+        aria-hidden="true"
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm">
           <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,28 +62,28 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
       </div>
 
       {/* Labels */}
-      <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase">Antes</div>
-      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase">Después</div>
-    </div>
+      <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Antes</div>
+      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Después</div>
+    </figure>
   );
 };
 
 const comparisons = [
-  { before: "/before1.png", after: "/after1.png", alt: "Renovación proyecto 1" },
-  { before: "/before2.png", after: "/after2.png", alt: "Renovación proyecto 2" },
+  { before: "/before1.png", after: "/after1.png", alt: "Renovación completa de cocina y espacios interiores" },
+  { before: "/before2.png", after: "/after2.png", alt: "Transformación de fachada y exteriores de propiedad" },
 ];
 
 const BeforeAfter = () => {
   return (
-    <section className="py-28 bg-background">
+    <section className="py-28 bg-background" aria-labelledby="antes-despues-titulo">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-5">
+          <h2 id="antes-despues-titulo" className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-5">
             Antes y <span className="text-primary italic">Después</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Acá puedes ver las renovaciones reales de proyectos hechos por OFG
+            Conoce las renovaciones reales de proyectos completados por OGF Real Estate
           </p>
         </div>
 
