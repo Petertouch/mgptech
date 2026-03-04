@@ -9,13 +9,26 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1280px",
       },
     },
     extend: {
       fontFamily: {
-        display: ["Playfair Display", "serif"],
-        body: ["Montserrat", "sans-serif"],
+        display: ["DM Serif Display", "serif"],
+        body: ["Inter", "sans-serif"],
+      },
+      fontSize: {
+        "xs": ["0.8rem", { lineHeight: "1.4" }],
+        "sm": ["0.875rem", { lineHeight: "1.5" }],
+        "base": ["1rem", { lineHeight: "1.75" }],
+        "lg": ["1.125rem", { lineHeight: "1.7" }],
+        "xl": ["1.25rem", { lineHeight: "1.6" }],
+        "2xl": ["1.5rem", { lineHeight: "1.35" }],
+        "3xl": ["2rem", { lineHeight: "1.2" }],
+        "4xl": ["2.5rem", { lineHeight: "1.15" }],
+        "5xl": ["3.25rem", { lineHeight: "1.1" }],
+        "6xl": ["4rem", { lineHeight: "1.05" }],
+        "7xl": ["5rem", { lineHeight: "1" }],
       },
       colors: {
         border: "hsl(var(--border))",

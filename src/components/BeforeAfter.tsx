@@ -31,7 +31,7 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl cursor-col-resize select-none border border-border/50"
+      className="relative w-full aspect-[3/2] overflow-hidden rounded-3xl cursor-col-resize select-none border border-white/5 shadow-2xl shadow-black/20"
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
@@ -48,19 +48,19 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
 
       {/* Slider Handle */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-col-resize"
+        className="absolute top-0 bottom-0 w-0.5 bg-white/80 cursor-col-resize"
         style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center">
-          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm">
+          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
           </svg>
         </div>
       </div>
 
       {/* Labels */}
-      <div className="absolute top-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Antes</div>
-      <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Después</div>
+      <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase">Antes</div>
+      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase">Después</div>
     </div>
   );
 };
@@ -72,20 +72,20 @@ const comparisons = [
 
 const BeforeAfter = () => {
   return (
-    <section className="py-24 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-28 bg-background">
+      <div className="container mx-auto px-6">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Antes y <span className="text-primary">Después</span>
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-5">
+            Antes y <span className="text-primary italic">Después</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
             Acá puedes ver las renovaciones reales de proyectos hechos por OFG
           </p>
         </div>
 
         {/* Before/After Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
           {comparisons.map((comp, index) => (
             <BeforeAfterSlider key={index} {...comp} />
           ))}

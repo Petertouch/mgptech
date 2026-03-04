@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,60 +7,60 @@
 @layer base {
   :root {
     --background: 215 60% 8%;
-    --foreground: 210 20% 95%;
+    --foreground: 210 20% 98%;
 
-    --card: 215 55% 12%;
-    --card-foreground: 210 20% 95%;
+    --card: 215 50% 13%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 215 55% 12%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 215 50% 13%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 215 60% 8%;
+    --primary: 210 100% 56%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 215 40% 18%;
-    --secondary-foreground: 210 20% 95%;
+    --secondary-foreground: 210 20% 98%;
 
     --muted: 215 30% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted-foreground: 215 15% 60%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 215 60% 8%;
+    --accent: 210 100% 56%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 30% 25%;
-    --input: 217 30% 25%;
-    --ring: 217 91% 60%;
+    --border: 217 25% 22%;
+    --input: 217 25% 22%;
+    --ring: 210 100% 56%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
     --navy: 215 60% 8%;
-    --navy-light: 215 55% 12%;
-    --electric-blue: 217 91% 60%;
-    --electric-blue-glow: 217 91% 70%;
+    --navy-light: 215 50% 11%;
+    --electric-blue: 210 100% 56%;
+    --electric-blue-glow: 210 100% 68%;
     --silver: 220 15% 70%;
     --gold: 45 80% 55%;
-    
+
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(215 60% 8%) 0%, hsl(215 55% 15%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(215 55% 14%) 0%, hsl(215 55% 10%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(217 91% 55%) 0%, hsl(217 91% 65%) 100%);
-    
+    --gradient-card: linear-gradient(160deg, hsl(215 50% 15%) 0%, hsl(215 50% 10%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(210 100% 50%) 0%, hsl(210 100% 62%) 100%);
+
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.3);
+    --shadow-glow: 0 0 60px hsl(210 100% 56% / 0.15);
     --shadow-card: 0 10px 40px hsl(215 60% 5% / 0.5);
-    
+
     /* Font families */
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'Montserrat', sans-serif;
+    --font-display: 'DM Serif Display', serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   .dark {
     --background: 215 60% 8%;
-    --foreground: 210 20% 95%;
+    --foreground: 210 20% 98%;
   }
 }
 
@@ -71,14 +71,25 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    font-size: 16px;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  p {
+    line-height: 1.75;
   }
 }
 
@@ -104,7 +115,7 @@
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -114,10 +125,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(217 91% 60% / 0.4);
+    box-shadow: 0 0 20px hsl(210 100% 56% / 0.3);
   }
   50% {
-    box-shadow: 0 0 40px hsl(217 91% 60% / 0.6);
+    box-shadow: 0 0 50px hsl(210 100% 56% / 0.5);
   }
 }
 
@@ -126,20 +137,20 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
+  animation: fade-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 3.5s ease-in-out infinite;
 }
 
 .animation-delay-200 {
@@ -152,4 +163,9 @@
 
 .animation-delay-600 {
   animation-delay: 600ms;
+}
+
+/* Better focus styles */
+a:focus-visible, button:focus-visible {
+  @apply outline-none ring-2 ring-primary/50 ring-offset-2 ring-offset-background rounded-lg;
 }
