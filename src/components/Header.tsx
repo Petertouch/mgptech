@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const WHATSAPP_LINK = "https://wa.me/+573124426783?text=%C2%A1Hola%21%20Quiero%20informaci%C3%B3n.%20";
@@ -16,6 +17,9 @@ const Header = () => {
           <a href="#areas" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
             Áreas
           </a>
+          <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
+            Blog
+          </Link>
           <a href="#contacto" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
             Contacto
           </a>
