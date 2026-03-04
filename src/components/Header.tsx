@@ -1,28 +1,50 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const WHATSAPP_LINK = "https://wa.me/+573124426783?text=%C2%A1Hola%21%20Quiero%20informaci%C3%B3n.%20";
 
+const NAV_LINKS = [
+  { label: "Servicios", hash: "servicios" },
+  { label: "Áreas", hash: "areas" },
+  { label: "Contacto", hash: "contacto" },
+];
+
 const Header = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleAnchorClick = (e: React.MouseEvent, hash: string) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-white/5" role="banner">
       <div className="container mx-auto px-6 py-3.5 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-3" aria-label="OGF Real Estate - Ir al inicio">
+        <Link to="/" className="flex items-center gap-3" aria-label="OGF Real Estate - Ir al inicio">
           <img src={logo} alt="OGF Real Estate Group LLC - Logo" className="h-10 w-auto" width="120" height="40" />
-        </a>
+        </Link>
         <nav className="hidden md:flex items-center gap-10" aria-label="Navegación principal">
-          <a href="#servicios" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
-            Servicios
-          </a>
-          <a href="#areas" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
-            Áreas
-          </a>
+          {NAV_LINKS.map(({ label, hash }) => (
+            <a
+              key={hash}
+              href={`/#${hash}`}
+              onClick={(e) => handleAnchorClick(e, hash)}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase"
+            >
+              {label}
+            </a>
+          ))}
           <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
             Blog
           </Link>
-          <a href="#contacto" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
-            Contacto
-          </a>
         </nav>
         <a
           href={WHATSAPP_LINK}
