@@ -1,21 +1,17 @@
-import { Hammer, RotateCcw, ArrowRight } from "lucide-react";
-import constructionImage from "@/assets/construction.jpg";
-import flippingImage from "@/assets/flipping.jpg";
+import { ArrowRight } from "lucide-react";
 
 const services = [
   {
-    icon: Hammer,
-    title: "Construcción Nueva",
-    description: "Construimos tu casa ideal desde cero. Diseños modernos, materiales de primera calidad y atención al detalle en cada proyecto.",
-    image: constructionImage,
-    features: ["Diseño personalizado", "Materiales premium", "Garantía de calidad"],
-  },
-  {
-    icon: RotateCcw,
     title: "House Flipping",
     description: "Compramos propiedades con potencial, las renovamos completamente y las convertimos en hogares modernos listos para habitar o invertir.",
-    image: flippingImage,
+    image: "/flipping.png",
     features: ["Renovación integral", "Diseño actualizado", "Valor maximizado"],
+  },
+  {
+    title: "Construcción Nueva",
+    description: "Construimos tu casa ideal desde cero. Diseños modernos, materiales de primera calidad y atención al detalle en cada proyecto.",
+    image: "/construction.png",
+    features: ["Diseño personalizado", "Materiales premium", "Garantía de calidad"],
   },
 ];
 
@@ -26,7 +22,7 @@ const Services = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Nuestros <span className="text-gradient">Servicios</span>
+            Nuestros <span className="text-primary">Servicios</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Dos líneas de negocio enfocadas en crear valor inmobiliario
@@ -35,7 +31,7 @@ const Services = () => {
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <div
               key={service.title}
               className="group card-gradient rounded-2xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-lg hover:shadow-primary/10"
@@ -48,11 +44,6 @@ const Services = () => {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-                <div className="absolute bottom-4 left-4">
-                  <div className="w-14 h-14 rounded-xl bg-primary/20 backdrop-blur-sm flex items-center justify-center border border-primary/30">
-                    <service.icon className="w-7 h-7 text-primary" />
-                  </div>
-                </div>
               </div>
 
               {/* Content */}

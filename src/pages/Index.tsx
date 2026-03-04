@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Areas from "@/components/Areas";
 import CTA from "@/components/CTA";
+import BeforeAfter from "@/components/BeforeAfter";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -14,6 +15,7 @@ const Index = () => {
         <Services />
         <Areas />
         <CTA />
+        <BeforeAfter />
       </main>
       <Footer />
     </div>

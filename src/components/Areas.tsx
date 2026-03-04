@@ -2,13 +2,13 @@ import { MapPin } from "lucide-react";
 
 const areas = [
   {
-    state: "Ohio",
-    description: "Cleveland, Columbus, Cincinnati y áreas metropolitanas",
+    state: "Georgia",
+    description: "Atlanta, Savannah, Augusta y comunidades cercanas",
     color: "from-primary to-electric-blue-glow",
   },
   {
-    state: "Georgia",
-    description: "Atlanta, Savannah, Augusta y comunidades cercanas",
+    state: "Ohio",
+    description: "Cleveland, Columbus, Cincinnati y áreas metropolitanas",
     color: "from-electric-blue-glow to-primary",
   },
   {
@@ -25,7 +25,7 @@ const Areas = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Áreas de <span className="text-gradient">Operación</span>
+            Áreas de <span className="text-primary">Operación</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Operamos en tres estados estratégicos con alto potencial de inversión inmobiliaria
@@ -34,7 +34,7 @@ const Areas = () => {
 
         {/* Areas Grid */}
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {areas.map((area, index) => (
+          {areas.map((area) => (
             <div
               key={area.state}
               className="group relative p-8 rounded-2xl card-gradient border border-border/50 hover:border-primary/50 transition-all duration-500 text-center"
