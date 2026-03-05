@@ -28,8 +28,8 @@ const Blog = () => {
       />
       <Header />
       <main>
-        <section className="py-28" aria-labelledby="blog-titulo">
-          <div className="container mx-auto px-6">
+        <section className="py-20 sm:py-28" aria-labelledby="blog-titulo">
+          <div className="container mx-auto px-4 sm:px-6">
             <BlogHeader
               title="Nuestro"
               accent="Blog"
@@ -87,7 +87,7 @@ const Blog = () => {
                     key={i}
                     onClick={() => setSearchParams({ page: String(i + 1) })}
                     className={cn(
-                      "w-10 h-10 rounded-full text-sm font-medium transition-all duration-300",
+                      "w-11 h-11 sm:w-10 sm:h-10 rounded-full text-sm font-medium transition-all duration-300",
                       page === i + 1
                         ? "bg-primary text-primary-foreground"
                         : "border border-white/10 text-muted-foreground hover:border-primary/30 hover:text-foreground"

@@ -9,16 +9,16 @@ const Footer = () => {
     <footer className="py-12 sm:py-20 bg-navy-light border-t border-white/5" role="contentinfo">
       <div className="container mx-auto px-4 sm:px-6">
         {/* Logo */}
-        <div className="mb-10 sm:mb-14 flex items-center gap-4">
-          <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-16 w-16 rounded-full flex-shrink-0" />
+        <div className="mb-8 sm:mb-14 flex items-center gap-3 sm:gap-4">
+          <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-12 w-12 sm:h-16 sm:w-16 rounded-full flex-shrink-0" />
           <div>
-            <span className="text-white font-bold text-base tracking-wide">OGF REAL ESTATE</span>
-            <span className="block text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
+            <span className="text-white font-bold text-sm sm:text-base tracking-wide">OGF REAL ESTATE</span>
+            <span className="block text-[9px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
           </div>
         </div>
 
         {/* Footer Grid */}
-        <nav className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-8 sm:gap-10" aria-label="Footer navigation">
+        <nav className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 md:grid-cols-5 md:gap-10" aria-label="Footer navigation">
           <div className="hidden md:block" />
 
           {/* Company */}

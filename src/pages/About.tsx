@@ -27,7 +27,7 @@ const About = () => {
         <section className="relative py-16 sm:py-24 overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="container mx-auto px-4 sm:px-6 relative z-10 text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display text-foreground mb-5 opacity-0 animate-fade-in-up">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-display text-foreground mb-5 opacity-0 animate-fade-in-up">
               {t.about.heroTitle} <span className="text-primary italic">{t.about.heroTitleAccent}</span>
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0 animate-fade-in-up animation-delay-200">
@@ -40,12 +40,12 @@ const About = () => {
           <div className="container mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               {STATS.map((stat, i) => (
-                <div key={stat.label} className={`card-gradient rounded-2xl border border-white/5 p-6 sm:p-8 text-center opacity-0 animate-fade-in-up animation-delay-${(i + 1) * 200}`}>
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <stat.icon className="w-6 h-6 text-primary" />
+                <div key={stat.label} className={`card-gradient rounded-2xl border border-white/5 p-4 sm:p-8 text-center opacity-0 animate-fade-in-up animation-delay-${(i + 1) * 200}`}>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
-                  <p className="text-3xl sm:text-4xl font-bold text-primary mb-1">{stat.value}</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-2xl sm:text-4xl font-bold text-primary mb-1">{stat.value}</p>
+                  <p className="text-[11px] sm:text-sm text-muted-foreground">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -126,28 +126,28 @@ const About = () => {
 
         <section className="py-12 sm:py-16 pb-20 sm:pb-28">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="max-w-3xl mx-auto card-gradient rounded-2xl border border-white/5 p-8 sm:p-10 opacity-0 animate-fade-in-up">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl sm:text-3xl font-display text-foreground mb-3">
+            <div className="max-w-3xl mx-auto card-gradient rounded-2xl border border-white/5 p-5 sm:p-10 opacity-0 animate-fade-in-up">
+              <div className="text-center mb-6 sm:mb-8">
+                <h2 className="text-xl sm:text-3xl font-display text-foreground mb-3">
                   {t.about.executionTitle} <span className="text-primary italic">{t.about.executionTitleAccent}</span>
                 </h2>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t.about.executionSubtitle}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-6">
-                <div className="text-center p-4 rounded-xl bg-white/5 border border-white/5">
-                  <p className="text-2xl sm:text-3xl font-bold text-primary mb-1">50+</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">{t.about.fixFlipProjects}</p>
+              <div className="grid grid-cols-2 gap-3 sm:gap-6 mb-6">
+                <div className="text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5">
+                  <p className="text-xl sm:text-3xl font-bold text-primary mb-1">50+</p>
+                  <p className="text-[11px] sm:text-sm text-muted-foreground">{t.about.fixFlipProjects}</p>
                 </div>
-                <div className="text-center p-4 rounded-xl bg-white/5 border border-white/5">
-                  <p className="text-2xl sm:text-3xl font-bold text-primary mb-1">50+</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">{t.about.newConstructionProjects}</p>
+                <div className="text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5">
+                  <p className="text-xl sm:text-3xl font-bold text-primary mb-1">50+</p>
+                  <p className="text-[11px] sm:text-sm text-muted-foreground">{t.about.newConstructionProjects}</p>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-center gap-3">
-                <span className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.costControl}</span>
-                <span className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.strictTimelines}</span>
-                <span className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.maxReturn}</span>
-                <span className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.usMarket}</span>
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                <span className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.costControl}</span>
+                <span className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.strictTimelines}</span>
+                <span className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.maxReturn}</span>
+                <span className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">{t.about.usMarket}</span>
               </div>
             </div>
           </div>

@@ -56,13 +56,13 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
   return (
     <header style={mobileMenuOpen ? { backgroundColor: "#030712" } : undefined} className={`fixed top-0 left-0 right-0 z-50 ${mobileMenuOpen ? "" : "bg-background/70 backdrop-blur-xl"} border-b border-white/5 transition-all duration-300 ${hidden ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"}`} role="banner">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5" aria-label="OGF Real Estate">
-          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden flex-shrink-0">
+        <Link to="/" className="flex items-center gap-2" aria-label="OGF Real Estate">
+          <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full overflow-hidden flex-shrink-0">
             <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-full w-full object-cover" />
           </div>
           <div className="leading-tight">
-            <span className="text-white font-bold text-sm sm:text-base tracking-wide">OGF REAL ESTATE</span>
-            <span className="block text-[9px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
+            <span className="text-white font-bold text-xs sm:text-base tracking-wide">OGF REAL ESTATE</span>
+            <span className="block text-[8px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
           </div>
         </Link>
 
@@ -78,12 +78,15 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
               {label}
             </Link>
           ))}
+          <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
+            {t.nav.about}
+          </Link>
           <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
             {t.nav.blog}
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           <LanguageToggle />
 
           {/* Auth section */}
@@ -154,32 +157,39 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
 
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[57px] z-40" style={{ backgroundColor: "#030712" }}>
-          <nav className="flex flex-col px-6 py-8 space-y-1" aria-label="Mobile navigation">
+        <div className="md:hidden fixed inset-0 top-[57px] z-40 overflow-y-auto" style={{ backgroundColor: "#030712" }}>
+          <nav className="flex flex-col px-6 pt-6 pb-10" aria-label="Mobile navigation">
             {NAV_LINKS.map(({ label, to }) => (
               <Link
                 key={to}
                 to={to}
                 onClick={(e) => handleNavClick(e, to)}
-                className="text-lg text-gray-300 hover:text-white py-3.5 border-b border-white/5 font-medium transition-colors"
+                className="text-base text-gray-300 hover:text-white py-4 border-b border-white/5 font-medium transition-colors"
               >
                 {label}
               </Link>
             ))}
             <Link
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-base text-gray-300 hover:text-white py-4 border-b border-white/5 font-medium transition-colors"
+            >
+              {t.nav.about}
+            </Link>
+            <Link
               to="/blog"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-lg text-gray-300 hover:text-white py-3.5 border-b border-white/5 font-medium transition-colors"
+              className="text-base text-gray-300 hover:text-white py-4 border-b border-white/5 font-medium transition-colors"
             >
               {t.nav.blog}
             </Link>
 
             {!loading && !user && (
-              <div className="pt-6">
+              <div className="pt-8">
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 bg-[#0047FF] text-white w-full py-3.5 rounded-xl font-medium text-base hover:bg-[#0035cc] transition-colors"
+                  className="flex items-center justify-center gap-2 bg-[#0047FF] text-white w-full py-4 rounded-xl font-semibold text-base hover:bg-[#0035cc] transition-colors"
                 >
                   {t.nav.portal}
                 </Link>

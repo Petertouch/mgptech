@@ -18,7 +18,7 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
       onClick={onClick}
       className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300 cursor-pointer"
     >
-      <div className="h-32 sm:h-36 overflow-hidden">
+      <div className="h-28 sm:h-36 overflow-hidden">
         <ImageCarousel
           images={project.project_images ?? []}
           coverImage={project.cover_image}
@@ -26,35 +26,35 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
           fallbackLetter={project.name.charAt(0)}
         />
       </div>
-      <div className="p-3 sm:p-3.5 space-y-1.5 sm:space-y-2">
-        <h3 className="text-sm sm:text-base font-semibold text-white">{project.name}</h3>
+      <div className="p-2 sm:p-3.5 space-y-1 sm:space-y-2">
+        <h3 className="text-xs sm:text-base font-semibold text-white leading-tight">{project.name}</h3>
         {project.location && (
-          <p className="text-xs sm:text-sm text-gray-400 flex items-center gap-1">
-            <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" /> {project.location}
+          <p className="text-[10px] sm:text-sm text-gray-400 flex items-center gap-1">
+            <MapPin className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 flex-shrink-0" /> {project.location}
           </p>
         )}
         {(project.sqft || project.bedrooms || project.bathrooms) && (
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-sm text-gray-400">
             {project.sqft && (
-              <span className="flex items-center gap-1">
-                <Ruler className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {project.sqft.toLocaleString()} ft²
+              <span className="flex items-center gap-0.5 sm:gap-1">
+                <Ruler className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" /> {project.sqft.toLocaleString()} ft²
               </span>
             )}
             {project.bedrooms && (
-              <span className="flex items-center gap-1">
-                <BedDouble className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {project.bedrooms}
+              <span className="flex items-center gap-0.5 sm:gap-1">
+                <BedDouble className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" /> {project.bedrooms}
               </span>
             )}
             {project.bathrooms && (
-              <span className="flex items-center gap-1">
-                <Bath className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {project.bathrooms}
+              <span className="flex items-center gap-0.5 sm:gap-1">
+                <Bath className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" /> {project.bathrooms}
               </span>
             )}
           </div>
         )}
         {project.sale_value && project.status === "completed" && (
-          <div className="flex items-center gap-2 text-xs sm:text-sm">
-            <DollarSign className="h-3.5 w-3.5 text-green-400 flex-shrink-0" />
+          <div className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-sm">
+            <DollarSign className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-green-400 flex-shrink-0" />
             <span className="text-green-400 font-semibold">
               ${project.sale_value.toLocaleString()}
             </span>
@@ -202,20 +202,20 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
     { key: "completed", label: t.projects.completed },
   ];
 
-  const selectClass = "bg-white/5 border border-white/10 text-gray-400 text-xs rounded-lg px-2.5 py-1.5 outline-none focus:border-[#0047FF]/50 transition-colors appearance-none cursor-pointer";
+  const selectClass = "bg-white/5 border border-white/10 text-gray-400 text-xs sm:text-xs rounded-lg px-2 py-2 sm:px-2.5 sm:py-1.5 outline-none focus:border-[#0047FF]/50 transition-colors appearance-none cursor-pointer min-h-[36px] sm:min-h-0";
 
   return (
     <section id="proyectos" className="bg-[#060a1f] pb-16 sm:pb-20 min-h-screen">
       <div ref={stickyRef} className="h-0" />
       <div className={`sticky top-0 z-30 bg-[#060a1f]/95 backdrop-blur-sm transition-shadow duration-300 ${isSticky ? "shadow-lg shadow-black/30" : ""}`}>
-        <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
+        <div className="container mx-auto px-3 sm:px-6 py-3 sm:py-4">
           <div className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 transition-all duration-300 ${isSticky ? "sm:justify-center" : "sm:justify-center sm:flex-col sm:items-center"}`}>
-            <h2 className={`font-bold text-white whitespace-nowrap transition-all duration-300 ${isSticky ? "hidden" : "text-2xl sm:text-3xl md:text-4xl sm:mb-2"}`}>
+            <h2 className={`font-bold text-white whitespace-nowrap transition-all duration-300 ${isSticky ? "hidden" : "text-xl sm:text-3xl md:text-4xl sm:mb-2 text-center"}`}>
               {t.projects.title} <span className="text-[#0047FF]">{t.projects.titleAccent}</span>
             </h2>
-            <div className={`flex flex-wrap items-center gap-2 transition-all duration-300 ${isSticky ? "justify-center" : "justify-center"}`}>
+            <div className={`flex flex-wrap items-center gap-1.5 sm:gap-2 transition-all duration-300 ${isSticky ? "justify-center" : "justify-center"}`}>
               {statusFilters.map((f) => (
-                <button key={f.key} onClick={() => setFilter(f.key)} className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${filter === f.key ? "bg-[#0047FF] text-white shadow-lg shadow-[#0047FF]/25" : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"}`}>
+                <button key={f.key} onClick={() => setFilter(f.key)} className={`px-3 py-1.5 sm:py-1 rounded-full text-xs font-medium transition-all duration-300 ${filter === f.key ? "bg-[#0047FF] text-white shadow-lg shadow-[#0047FF]/25" : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"}`}>
                   {f.label}
                 </button>
               ))}
@@ -246,13 +246,13 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
+      <div className="container mx-auto px-3 sm:px-6 pt-6 sm:pt-8">
         {isLoading ? (
           <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 text-[#0047FF] animate-spin" /></div>
         ) : allProjects.length === 0 ? (
           <p className="text-center text-gray-500 py-12">{t.projects.noProjects}</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4 max-w-4xl mx-auto">
             {allProjects.map((project: ProjectWithPhases) => (
               <ProjectCard key={project.id} project={project} onClick={() => setSelectedProject(project)} />
             ))}

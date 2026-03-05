@@ -64,8 +64,8 @@ const BeforeAfterSlider = ({ before, after, alt, beforeLabel, afterLabel }: Befo
         </div>
       </div>
 
-      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">{beforeLabel}</div>
-      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">{afterLabel}</div>
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/60 backdrop-blur-sm text-white text-[11px] sm:text-xs px-3 py-1.5 rounded-full font-semibold tracking-wide uppercase" aria-hidden="true">{beforeLabel}</div>
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black/60 backdrop-blur-sm text-white text-[11px] sm:text-xs px-3 py-1.5 rounded-full font-semibold tracking-wide uppercase" aria-hidden="true">{afterLabel}</div>
     </figure>
   );
 };
