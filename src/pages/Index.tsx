@@ -10,11 +10,25 @@ import { Link } from "react-router-dom";
 import { MapPin, Ruler, BedDouble, Bath, DollarSign } from "lucide-react";
 import ImageCarousel from "@/components/dashboard/ImageCarousel";
 import type { ProjectWithPhases } from "@/types/project";
+import { useState } from "react";
+
+type ProjectFilter = "all" | "active" | "completed";
 
 function PublicProjects() {
   const { data: projects, isLoading } = usePublicProjects();
+  const [filter, setFilter] = useState<ProjectFilter>("all");
 
   if (isLoading || !projects || projects.length === 0) return null;
+
+  const filtered = filter === "all"
+    ? projects
+    : projects.filter((p: ProjectWithPhases) => p.status === filter);
+
+  const filters: { key: ProjectFilter; label: string }[] = [
+    { key: "all", label: "Todos" },
+    { key: "active", label: "En Proceso" },
+    { key: "completed", label: "Completados" },
+  ];
 
   return (
     <section id="proyectos" className="py-16 sm:py-20 bg-[#060a1f]">
@@ -23,12 +37,30 @@ function PublicProjects() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
             Nuestros <span className="text-[#0047FF]">Proyectos</span>
           </h2>
-          <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mb-6">
             Conoce los proyectos de inversión inmobiliaria que estamos desarrollando.
           </p>
+          <div className="flex justify-center gap-2">
+            {filters.map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setFilter(f.key)}
+                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+                  filter === f.key
+                    ? "bg-[#0047FF] text-white shadow-lg shadow-[#0047FF]/25"
+                    : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
         </div>
+        {filtered.length === 0 ? (
+          <p className="text-center text-gray-500 py-12">No hay proyectos en esta categoría.</p>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {projects.map((project: ProjectWithPhases) => {
+          {filtered.map((project: ProjectWithPhases) => {
             const completedPhases = project.project_phases?.filter((p) => p.status === "completed").length ?? 0;
             return (
               <div
@@ -100,6 +132,7 @@ function PublicProjects() {
             );
           })}
         </div>
+        )}
         <div className="text-center mt-6 sm:mt-8">
           <Link
             to="/login"
