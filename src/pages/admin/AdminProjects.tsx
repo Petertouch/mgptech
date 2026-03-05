@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAdminProjects, useCreateProject, useDeleteProject } from "@/hooks/useAdminProjects";
 import ProjectForm from "@/components/admin/ProjectForm";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Settings, Loader2, MapPin, Users, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, Settings, Loader2, MapPin, Users, Eye, EyeOff, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type VisibilityFilter = "all" | "public" | "hidden";
@@ -15,10 +15,15 @@ export default function AdminProjects() {
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [visibility, setVisibility] = useState<VisibilityFilter>("all");
+  const [search, setSearch] = useState("");
 
   const filteredProjects = projects?.filter((p) => {
-    if (visibility === "public") return p.is_public;
-    if (visibility === "hidden") return !p.is_public;
+    if (visibility === "public" && !p.is_public) return false;
+    if (visibility === "hidden" && p.is_public) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      return p.name.toLowerCase().includes(q) || p.location?.toLowerCase().includes(q);
+    }
     return true;
   });
 
@@ -52,6 +57,17 @@ export default function AdminProjects() {
         <Button onClick={() => setShowForm(!showForm)} className="bg-[#0047FF] hover:bg-[#0035cc]">
           <Plus className="h-4 w-4 mr-2" /> Nuevo Proyecto
         </Button>
+      </div>
+
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+        <input
+          type="text"
+          placeholder="Buscar por nombre o ubicación..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 outline-none focus:border-[#0047FF]/50 transition-colors"
+        />
       </div>
 
       <div className="flex items-center gap-2">
