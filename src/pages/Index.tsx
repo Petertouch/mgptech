@@ -119,8 +119,8 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <Services />
         <PublicProjects />
+        <Services />
         <Areas />
         <CTA />
         <BeforeAfter />
