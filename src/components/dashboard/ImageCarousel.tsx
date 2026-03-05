@@ -31,7 +31,7 @@ export default function ImageCarousel({ images, coverImage, alt, fallbackLetter 
 
   if (allImages.length === 1) {
     return (
-      <img src={allImages[0]} alt={alt} className="w-full h-full object-cover" />
+      <img src={allImages[0]} alt={alt} loading="lazy" decoding="async" className="w-full h-full object-cover" />
     );
   }
 
@@ -43,6 +43,8 @@ export default function ImageCarousel({ images, coverImage, alt, fallbackLetter 
       <img
         src={allImages[current]}
         alt={`${alt} - ${current + 1}`}
+        loading="lazy"
+        decoding="async"
         className="w-full h-full object-cover transition-opacity duration-300"
       />
 

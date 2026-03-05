@@ -19,6 +19,9 @@ import AdminProjectEdit from "./pages/admin/AdminProjectEdit";
 import AdminInvestors from "./pages/admin/AdminInvestors";
 import AdminBlog from "./pages/admin/AdminBlog";
 import AdminBlogEdit from "./pages/admin/AdminBlogEdit";
+import Servicios from "./pages/Servicios";
+import AreasPage from "./pages/AreasPage";
+import Contacto from "./pages/Contacto";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +38,9 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/servicios" element={<Servicios />} />
+              <Route path="/areas" element={<AreasPage />} />
+              <Route path="/contacto" element={<Contacto />} />
               <Route path="/login" element={<Login />} />
 
               {/* Investor routes */}

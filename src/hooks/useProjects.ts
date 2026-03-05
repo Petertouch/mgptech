@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import type { ProjectWithPhases, ProjectDocument, PhaseWithPhotos } from "@/types/project";
 
@@ -88,5 +88,69 @@ export function usePublicProjects() {
       if (error) throw error;
       return data as ProjectWithPhases[];
     },
+  });
+}
+
+export interface PublicProjectsFilters {
+  status: "all" | "active" | "completed";
+  location: string;
+  investmentType: string;
+  minBedrooms: number;
+  minBathrooms: number;
+  priceRange: "all" | "under200" | "200to400" | "over400";
+}
+
+const PAGE_SIZE = 6;
+
+export function usePublicProjectsPaginated(filters: PublicProjectsFilters) {
+  return useInfiniteQuery({
+    queryKey: ["public-projects-paginated", filters],
+    queryFn: async ({ pageParam = 0 }) => {
+      let query = supabase
+        .from("projects")
+        .select("*, project_phases(*), project_images(*)", { count: "exact" })
+        .eq("is_public", true)
+        .in("status", ["active", "completed"])
+        .order("created_at", { ascending: false });
+
+      // Server-side filters
+      if (filters.status !== "all") {
+        query = query.eq("status", filters.status);
+      }
+      if (filters.location !== "all") {
+        query = query.ilike("location", `%${filters.location}%`);
+      }
+      if (filters.investmentType !== "all") {
+        query = query.eq("investment_type", filters.investmentType);
+      }
+      if (filters.minBedrooms > 0) {
+        query = query.gte("bedrooms", filters.minBedrooms);
+      }
+      if (filters.minBathrooms > 0) {
+        query = query.gte("bathrooms", filters.minBathrooms);
+      }
+      if (filters.priceRange === "under200") {
+        query = query.lt("total_value", 200000);
+      } else if (filters.priceRange === "200to400") {
+        query = query.gte("total_value", 200000).lte("total_value", 400000);
+      } else if (filters.priceRange === "over400") {
+        query = query.gt("total_value", 400000);
+      }
+
+      const from = pageParam * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+      query = query.range(from, to);
+
+      const { data, error, count } = await query;
+      if (error) throw error;
+
+      return {
+        projects: data as ProjectWithPhases[],
+        nextPage: (count ?? 0) > to + 1 ? pageParam + 1 : undefined,
+        total: count ?? 0,
+      };
+    },
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 0,
   });
 }

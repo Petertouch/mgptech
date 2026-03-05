@@ -5,13 +5,13 @@ import { useState, useRef, useEffect } from "react";
 import logo from "@/assets/logo.png";
 
 const NAV_LINKS = [
-  { label: "Servicios", hash: "servicios" },
-  { label: "Proyectos", hash: "proyectos" },
-  { label: "Áreas", hash: "areas" },
-  { label: "Contacto", hash: "contacto" },
+  { label: "Servicios", to: "/servicios" },
+  { label: "Proyectos", to: "/#proyectos" },
+  { label: "Áreas", to: "/areas" },
+  { label: "Contacto", to: "/contacto" },
 ];
 
-const Header = () => {
+const Header = ({ hidden = false }: { hidden?: boolean }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, isAdmin, isInvestor, logout, loading } = useAuth();
@@ -35,21 +35,24 @@ const Header = () => {
     return () => { document.body.style.overflow = ""; };
   }, [mobileMenuOpen]);
 
-  const handleAnchorClick = (e: React.MouseEvent, hash: string) => {
-    e.preventDefault();
+  const handleNavClick = (e: React.MouseEvent, to: string) => {
     setMobileMenuOpen(false);
-    if (location.pathname === "/") {
-      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      navigate("/");
-      setTimeout(() => {
+    if (to.startsWith("/#")) {
+      e.preventDefault();
+      const hash = to.slice(2);
+      if (location.pathname === "/") {
         document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      } else {
+        navigate("/");
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
     }
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-white/5" role="banner">
+    <header className={`fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ${hidden ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"}`} role="banner">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3" aria-label="OGF Real Estate - Ir al inicio">
           <img src={logo} alt="OGF Real Estate Group LLC - Logo" className="h-8 sm:h-10 w-auto" width="120" height="40" />
@@ -57,15 +60,15 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8" aria-label="Navegación principal">
-          {NAV_LINKS.map(({ label, hash }) => (
-            <a
-              key={hash}
-              href={`/#${hash}`}
-              onClick={(e) => handleAnchorClick(e, hash)}
+          {NAV_LINKS.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              onClick={(e) => handleNavClick(e, to)}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase"
             >
               {label}
-            </a>
+            </Link>
           ))}
           <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
             Blog
@@ -143,15 +146,15 @@ const Header = () => {
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-0 top-[57px] bg-background/98 backdrop-blur-xl z-40">
           <nav className="flex flex-col px-6 py-8 space-y-1" aria-label="Navegación móvil">
-            {NAV_LINKS.map(({ label, hash }) => (
-              <a
-                key={hash}
-                href={`/#${hash}`}
-                onClick={(e) => handleAnchorClick(e, hash)}
+            {NAV_LINKS.map(({ label, to }) => (
+              <Link
+                key={to}
+                to={to}
+                onClick={(e) => handleNavClick(e, to)}
                 className="text-lg text-gray-300 hover:text-white py-3.5 border-b border-white/5 font-medium transition-colors"
               >
                 {label}
-              </a>
+              </Link>
             ))}
             <Link
               to="/blog"
