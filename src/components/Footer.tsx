@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
+import logoIcon from "@/assets/logo-icon.png";
 
 const Footer = () => {
   return (
     <footer className="py-12 sm:py-20 bg-navy-light border-t border-white/5" role="contentinfo">
       <div className="container mx-auto px-4 sm:px-6">
-        {/* Tagline */}
-        <div className="mb-10 sm:mb-14">
-          <p className="text-lg sm:text-xl md:text-2xl font-display text-foreground/80">
-            Transformamos casas con historia en inversiones con futuro.
-          </p>
+        {/* Logo + Tagline */}
+        <div className="mb-10 sm:mb-14 flex items-center gap-4">
+          <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-12 w-12 rounded-full flex-shrink-0" />
+          <div>
+            <span className="text-white font-bold text-base tracking-wide">OGF REAL ESTATE</span>
+            <span className="block text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
+            <p className="text-sm text-foreground/60 mt-1">
+              Transformamos casas con historia en inversiones con futuro.
+            </p>
+          </div>
         </div>
 
         {/* Footer Grid */}
