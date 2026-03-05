@@ -16,7 +16,6 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const NAV_LINKS = [
-    { label: t.nav.proyectos, to: "/#proyectos" },
     { label: t.nav.servicios, to: "/servicios" },
     { label: t.nav.contacto, to: "/contacto" },
   ];
@@ -87,8 +86,6 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-3">
-          <LanguageToggle />
-
           {/* Auth section */}
           {!loading && (
             user ? (
