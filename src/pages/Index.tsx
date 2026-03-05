@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import { usePublicProjectsPaginated, type PublicProjectsFilters } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
-import { MapPin, Ruler, BedDouble, Bath, DollarSign, Loader2 } from "lucide-react";
+import { MapPin, Ruler, BedDouble, Bath, DollarSign, Loader2, X, Home } from "lucide-react";
 import ImageCarousel from "@/components/dashboard/ImageCarousel";
 import type { ProjectWithPhases } from "@/types/project";
 import { useState, useRef, useEffect, useMemo, memo } from "react";
@@ -12,11 +12,12 @@ type ProjectFilter = "all" | "active" | "completed";
 type PriceRange = "all" | "under200" | "200to400" | "over400";
 
 // Memoized project card to prevent re-renders
-const ProjectCard = memo(function ProjectCard({ project }: { project: ProjectWithPhases }) {
-  const completedPhases = project.project_phases?.filter((p) => p.status === "completed").length ?? 0;
-
+const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: ProjectWithPhases; onClick: () => void }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300">
+    <div
+      onClick={onClick}
+      className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300 cursor-pointer"
+    >
       <div className="h-32 sm:h-36 overflow-hidden">
         <ImageCarousel
           images={project.project_images ?? []}
@@ -31,17 +32,6 @@ const ProjectCard = memo(function ProjectCard({ project }: { project: ProjectWit
           <p className="text-xs sm:text-sm text-gray-400 flex items-center gap-1">
             <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" /> {project.location}
           </p>
-        )}
-        {project.description && (
-          <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">{project.description}</p>
-        )}
-        {project.sale_value && project.status === "completed" && (
-          <div className="flex items-center gap-2 text-xs sm:text-sm">
-            <DollarSign className="h-3.5 w-3.5 text-green-400 flex-shrink-0" />
-            <span className="text-green-400 font-semibold">
-              Vendido: ${project.sale_value.toLocaleString()}
-            </span>
-          </div>
         )}
         {(project.sqft || project.bedrooms || project.bathrooms) && (
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400">
@@ -62,25 +52,121 @@ const ProjectCard = memo(function ProjectCard({ project }: { project: ProjectWit
             )}
           </div>
         )}
-        <div className="space-y-1">
-          <div className="flex justify-between text-[10px] sm:text-xs text-gray-400">
-            <span>Progreso</span>
-            <span>{completedPhases}/5 fases</span>
+        {project.sale_value && project.status === "completed" && (
+          <div className="flex items-center gap-2 text-xs sm:text-sm">
+            <DollarSign className="h-3.5 w-3.5 text-green-400 flex-shrink-0" />
+            <span className="text-green-400 font-semibold">
+              ${project.sale_value.toLocaleString()}
+            </span>
           </div>
-          <div className="flex gap-1">
-            {[1, 2, 3, 4, 5].map((n) => {
-              const phase = project.project_phases?.find((p) => p.phase_number === n);
-              let bg = "bg-white/10";
-              if (phase?.status === "completed") bg = "bg-green-500";
-              else if (phase?.status === "in_progress") bg = "bg-[#0047FF] animate-pulse";
-              return <div key={n} className={`h-1.5 flex-1 rounded-full ${bg}`} />;
-            })}
+        )}
+      </div>
+    </div>
+  );
+});
+
+// Project detail modal
+function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div
+        className="relative bg-[#0a0f2c] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {/* Images */}
+        <div className="h-56 sm:h-72">
+          <ImageCarousel
+            images={project.project_images ?? []}
+            coverImage={project.cover_image}
+            alt={project.name}
+            fallbackLetter={project.name.charAt(0)}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-5 sm:p-6 space-y-4">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">{project.name}</h2>
+            {project.location && (
+              <p className="text-sm text-gray-400 flex items-center gap-1.5 mt-1">
+                <MapPin className="h-4 w-4 flex-shrink-0" /> {project.location}
+              </p>
+            )}
+          </div>
+
+          {/* Stats */}
+          <div className="flex flex-wrap gap-3">
+            {project.sale_value && project.status === "completed" && (
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20">
+                <DollarSign className="h-4 w-4 text-green-400" />
+                <span className="text-green-400 font-semibold text-sm">${project.sale_value.toLocaleString()}</span>
+              </div>
+            )}
+            {project.sqft && (
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                <Ruler className="h-4 w-4 text-gray-400" />
+                <span className="text-white text-sm">{project.sqft.toLocaleString()} ft²</span>
+              </div>
+            )}
+            {project.bedrooms && (
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                <BedDouble className="h-4 w-4 text-gray-400" />
+                <span className="text-white text-sm">{project.bedrooms} hab.</span>
+              </div>
+            )}
+            {project.bathrooms && (
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                <Bath className="h-4 w-4 text-gray-400" />
+                <span className="text-white text-sm">{project.bathrooms} baños</span>
+              </div>
+            )}
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+              <Home className="h-4 w-4 text-gray-400" />
+              <span className="text-white text-sm">
+                {project.investment_type === "new_construction" ? "Construcción Nueva" : "House Flipping"}
+              </span>
+            </div>
+          </div>
+
+          {/* Description */}
+          {project.description && (
+            <p className="text-sm text-gray-300 leading-relaxed">{project.description}</p>
+          )}
+
+          {/* CTA */}
+          <div className="pt-2">
+            <Link
+              to="/login"
+              onClick={onClose}
+              className="inline-flex items-center gap-2 bg-[#0047FF] text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[#0035cc] transition-colors"
+            >
+              Más información — Portal Inversionistas
+            </Link>
           </div>
         </div>
       </div>
     </div>
   );
-});
+}
 
 // Known locations for the filter dropdown (avoids an extra query)
 const KNOWN_LOCATIONS = ["Florida", "Georgia", "Ohio"];
@@ -93,6 +179,7 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
   const [minBathrooms, setMinBathrooms] = useState(0);
   const [priceRange, setPriceRange] = useState<PriceRange>("all");
   const [isSticky, setIsSticky] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<ProjectWithPhases | null>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -233,7 +320,7 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto">
             {allProjects.map((project: ProjectWithPhases) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} onClick={() => setSelectedProject(project)} />
             ))}
           </div>
         )}
@@ -274,6 +361,9 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
           </Link>
         </div>
       </div>
+      {selectedProject && (
+        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      )}
     </section>
   );
 }
