@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Services from "@/components/Services";
 import Areas from "@/components/Areas";
+import BeforeAfter from "@/components/BeforeAfter";
 import Footer from "@/components/Footer";
 
 const Servicios = () => {
@@ -10,6 +11,7 @@ const Servicios = () => {
       <main className="pt-20">
         <Services />
         <Areas />
+        <BeforeAfter />
       </main>
       <Footer />
     </div>
