@@ -7,13 +7,10 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6">
         {/* Logo + Tagline */}
         <div className="mb-10 sm:mb-14 flex items-center gap-4">
-          <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-12 w-12 rounded-full flex-shrink-0" />
+          <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-16 w-16 rounded-full flex-shrink-0" />
           <div>
             <span className="text-white font-bold text-base tracking-wide">OGF REAL ESTATE</span>
             <span className="block text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
-            <p className="text-sm text-foreground/60 mt-1">
-              Transformamos casas con historia en inversiones con futuro.
-            </p>
           </div>
         </div>
 
