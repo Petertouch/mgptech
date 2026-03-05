@@ -149,7 +149,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
 
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[57px] bg-background/98 backdrop-blur-xl z-40">
+        <div className="md:hidden fixed inset-0 top-[57px] bg-[#030712] z-40">
           <nav className="flex flex-col px-6 py-8 space-y-1" aria-label="Navegación móvil">
             {NAV_LINKS.map(({ label, to }) => (
               <Link
