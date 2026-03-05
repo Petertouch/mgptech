@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { LogOut, LayoutDashboard, Shield, User, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import logo from "@/assets/logo.png";
+import logoIcon from "@/assets/logo-icon.png";
 
 const NAV_LINKS = [
   { label: "Proyectos", to: "/#proyectos" },
@@ -55,7 +55,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5" aria-label="OGF Real Estate - Ir al inicio">
           <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden flex-shrink-0">
-            <img src={logo} alt="OGF Real Estate Group LLC" className="h-[280%] w-[280%] object-cover object-[50%_22%] -ml-[90%] -mt-[12%]" />
+            <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-full w-full object-cover" />
           </div>
           <div className="leading-tight">
             <span className="text-white font-bold text-sm sm:text-base tracking-wide">OGF REAL ESTATE</span>
