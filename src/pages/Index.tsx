@@ -17,17 +17,17 @@ function PublicProjects() {
   if (isLoading || !projects || projects.length === 0) return null;
 
   return (
-    <section id="proyectos" className="py-20 bg-[#060a1f]">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+    <section id="proyectos" className="py-16 sm:py-20 bg-[#060a1f]">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
             Nuestros <span className="text-[#0047FF]">Proyectos</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto">
             Conoce los proyectos de inversión inmobiliaria que estamos desarrollando.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {projects.map((project: ProjectWithPhases) => {
             const completedPhases = project.project_phases?.filter((p) => p.status === "completed").length ?? 0;
             return (
@@ -35,7 +35,7 @@ function PublicProjects() {
                 key={project.id}
                 className="bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300"
               >
-                <div className="h-48 overflow-hidden">
+                <div className="h-44 sm:h-48 overflow-hidden">
                   <ImageCarousel
                     images={project.project_images ?? []}
                     coverImage={project.cover_image}
@@ -43,45 +43,45 @@ function PublicProjects() {
                     fallbackLetter={project.name.charAt(0)}
                   />
                 </div>
-                <div className="p-5 space-y-3">
-                  <h3 className="text-lg font-semibold text-white">{project.name}</h3>
+                <div className="p-4 sm:p-5 space-y-2.5 sm:space-y-3">
+                  <h3 className="text-base sm:text-lg font-semibold text-white">{project.name}</h3>
                   {project.location && (
-                    <p className="text-sm text-gray-400 flex items-center gap-1">
-                      <MapPin className="h-3.5 w-3.5" /> {project.location}
+                    <p className="text-xs sm:text-sm text-gray-400 flex items-center gap-1">
+                      <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" /> {project.location}
                     </p>
                   )}
                   {project.description && (
-                    <p className="text-sm text-gray-500 line-clamp-2">{project.description}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">{project.description}</p>
                   )}
                   {project.sale_value && project.status === "completed" && (
-                    <div className="flex items-center gap-2 text-sm">
-                      <DollarSign className="h-3.5 w-3.5 text-green-400" />
+                    <div className="flex items-center gap-2 text-xs sm:text-sm">
+                      <DollarSign className="h-3.5 w-3.5 text-green-400 flex-shrink-0" />
                       <span className="text-green-400 font-semibold">
                         Vendido: ${project.sale_value.toLocaleString()}
                       </span>
                     </div>
                   )}
                   {(project.sqft || project.bedrooms || project.bathrooms) && (
-                    <div className="flex items-center gap-4 text-sm text-gray-400">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400">
                       {project.sqft && (
                         <span className="flex items-center gap-1">
-                          <Ruler className="h-3.5 w-3.5" /> {project.sqft.toLocaleString()} ft²
+                          <Ruler className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {project.sqft.toLocaleString()} ft²
                         </span>
                       )}
                       {project.bedrooms && (
                         <span className="flex items-center gap-1">
-                          <BedDouble className="h-3.5 w-3.5" /> {project.bedrooms}
+                          <BedDouble className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {project.bedrooms}
                         </span>
                       )}
                       {project.bathrooms && (
                         <span className="flex items-center gap-1">
-                          <Bath className="h-3.5 w-3.5" /> {project.bathrooms}
+                          <Bath className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {project.bathrooms}
                         </span>
                       )}
                     </div>
                   )}
                   <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-gray-400">
+                    <div className="flex justify-between text-[10px] sm:text-xs text-gray-400">
                       <span>Progreso</span>
                       <span>{completedPhases}/5 fases</span>
                     </div>
@@ -100,10 +100,10 @@ function PublicProjects() {
             );
           })}
         </div>
-        <div className="text-center mt-8">
+        <div className="text-center mt-6 sm:mt-8">
           <Link
             to="/login"
-            className="inline-flex items-center gap-2 text-[#0047FF] hover:underline text-sm font-medium"
+            className="inline-flex items-center gap-2 text-[#0047FF] hover:underline text-xs sm:text-sm font-medium"
           >
             Accede al portal de inversionistas para más información
           </Link>

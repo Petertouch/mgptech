@@ -19,27 +19,27 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="servicios" className="py-28 bg-navy-light" aria-labelledby="servicios-titulo">
-      <div className="container mx-auto px-6">
+    <section id="servicios" className="py-16 sm:py-28 bg-navy-light" aria-labelledby="servicios-titulo">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center mb-20">
-          <h2 id="servicios-titulo" className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-5">
+        <div className="text-center mb-10 sm:mb-20">
+          <h2 id="servicios-titulo" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-4 sm:mb-5">
             Nuestros <span className="text-primary italic">Servicios</span>
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
             Dos líneas de negocio enfocadas en crear valor inmobiliario
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-10 max-w-5xl mx-auto">
           {services.map((service) => (
             <article
               key={service.title}
-              className="group card-gradient rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"
+              className="group card-gradient rounded-2xl sm:rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"
             >
               {/* Image */}
-              <div className="relative h-72 overflow-hidden">
+              <div className="relative h-48 sm:h-72 overflow-hidden">
                 <img
                   src={service.image}
                   alt={service.imageAlt}
@@ -52,16 +52,16 @@ const Services = () => {
               </div>
 
               {/* Content */}
-              <div className="p-8">
-                <h3 className="text-2xl md:text-3xl font-display text-foreground mb-4">
+              <div className="p-5 sm:p-8">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-display text-foreground mb-3 sm:mb-4">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-7">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5 sm:mb-7">
                   {service.description}
                 </p>
 
                 {/* Features */}
-                <ul className="space-y-3" aria-label={`Características de ${service.title}`}>
+                <ul className="space-y-2.5 sm:space-y-3" aria-label={`Características de ${service.title}`}>
                   {service.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-3 text-sm text-muted-foreground">
                       <ArrowRight className="w-3.5 h-3.5 text-primary flex-shrink-0" aria-hidden="true" />

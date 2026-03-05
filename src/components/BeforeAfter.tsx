@@ -24,6 +24,7 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isDragging.current) handleMove(e.clientX);
   };
+  const handleTouchStart = () => { isDragging.current = true; };
   const handleTouchMove = (e: React.TouchEvent) => {
     handleMove(e.touches[0].clientX);
   };
@@ -31,12 +32,14 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
   return (
     <figure
       ref={containerRef}
-      className="relative w-full aspect-[3/2] overflow-hidden rounded-3xl cursor-col-resize select-none border border-white/5 shadow-2xl shadow-black/20"
+      className="relative w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden rounded-2xl sm:rounded-3xl cursor-col-resize select-none border border-white/5 shadow-2xl shadow-black/20 touch-none"
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
+      onTouchEnd={handleMouseUp}
       role="img"
       aria-label={`Comparación antes y después: ${alt}`}
     >
@@ -54,7 +57,7 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
         style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
         aria-hidden="true"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 sm:w-10 sm:h-10 bg-white rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm">
           <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
           </svg>
@@ -62,8 +65,8 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
       </div>
 
       {/* Labels */}
-      <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Antes</div>
-      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-[11px] px-3.5 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Después</div>
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Antes</div>
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Después</div>
     </figure>
   );
 };
@@ -75,20 +78,20 @@ const comparisons = [
 
 const BeforeAfter = () => {
   return (
-    <section className="py-28 bg-background" aria-labelledby="antes-despues-titulo">
-      <div className="container mx-auto px-6">
+    <section className="py-16 sm:py-28 bg-background" aria-labelledby="antes-despues-titulo">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center mb-20">
-          <h2 id="antes-despues-titulo" className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-5">
+        <div className="text-center mb-10 sm:mb-20">
+          <h2 id="antes-despues-titulo" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-4 sm:mb-5">
             Antes y <span className="text-primary italic">Después</span>
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
             Conoce las renovaciones reales de proyectos completados por OGF Real Estate
           </p>
         </div>
 
         {/* Before/After Grid */}
-        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-10 max-w-5xl mx-auto">
           {comparisons.map((comp, index) => (
             <BeforeAfterSlider key={index} {...comp} />
           ))}

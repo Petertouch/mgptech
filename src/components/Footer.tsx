@@ -2,24 +2,24 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="py-20 bg-navy-light border-t border-white/5" role="contentinfo">
-      <div className="container mx-auto px-6">
+    <footer className="py-12 sm:py-20 bg-navy-light border-t border-white/5" role="contentinfo">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Tagline */}
-        <div className="mb-14">
-          <p className="text-xl md:text-2xl font-display text-foreground/80">
+        <div className="mb-10 sm:mb-14">
+          <p className="text-lg sm:text-xl md:text-2xl font-display text-foreground/80">
             Transformamos casas con historia en inversiones con futuro.
           </p>
         </div>
 
         {/* Footer Grid */}
-        <nav className="grid grid-cols-2 md:grid-cols-5 gap-10" aria-label="Enlaces del pie de página">
-          {/* Empty spacer */}
+        <nav className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-8 sm:gap-10" aria-label="Enlaces del pie de página">
+          {/* Empty spacer - desktop only */}
           <div className="hidden md:block" />
 
           {/* Company */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-5">Company</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-4 sm:mb-5">Company</h4>
+            <ul className="space-y-2.5 sm:space-y-3">
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">About Us</a></li>
               <li><a href="#servicios" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Services</a></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Pricing</a></li>
@@ -29,8 +29,8 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-5">Resources</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-4 sm:mb-5">Resources</h4>
+            <ul className="space-y-2.5 sm:space-y-3">
               <li><Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Blog</Link></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Community</a></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Terms & Conditions</a></li>
@@ -40,8 +40,8 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-5">Quick links</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-4 sm:mb-5">Quick links</h4>
+            <ul className="space-y-2.5 sm:space-y-3">
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">My account</a></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Affiliates</a></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">Documentation</a></li>
@@ -51,11 +51,11 @@ const Footer = () => {
 
           {/* Follow Us */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-5">Follow us</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/60 mb-4 sm:mb-5">Follow us</h4>
             <div className="flex gap-3">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/25 hover:bg-white/5 transition-all duration-300"
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/25 hover:bg-white/5 transition-all duration-300"
                 aria-label="Síguenos en Facebook"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -64,7 +64,7 @@ const Footer = () => {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/25 hover:bg-white/5 transition-all duration-300"
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/25 hover:bg-white/5 transition-all duration-300"
                 aria-label="Síguenos en LinkedIn"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -76,7 +76,7 @@ const Footer = () => {
         </nav>
 
         {/* Copyright */}
-        <div className="mt-16 pt-8 border-t border-white/5">
+        <div className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-white/5">
           <p className="text-xs text-muted-foreground/60 text-center tracking-wide">
             © {new Date().getFullYear()} OGF Real Estate Group LLC. Todos los derechos reservados.
           </p>
