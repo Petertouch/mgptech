@@ -5,9 +5,8 @@ import { useState, useRef, useEffect } from "react";
 import logo from "@/assets/logo.png";
 
 const NAV_LINKS = [
-  { label: "Servicios", to: "/servicios" },
   { label: "Proyectos", to: "/#proyectos" },
-  { label: "Áreas", to: "/areas" },
+  { label: "Servicios", to: "/servicios" },
   { label: "Contacto", to: "/contacto" },
 ];
 
