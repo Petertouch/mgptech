@@ -18,6 +18,7 @@ export interface Project {
   sqft: number | null;
   bedrooms: number | null;
   bathrooms: number | null;
+  sale_value: number | null;
   created_at: string;
   updated_at: string;
 }

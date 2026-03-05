@@ -7,7 +7,7 @@ import BeforeAfter from "@/components/BeforeAfter";
 import Footer from "@/components/Footer";
 import { usePublicProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
-import { MapPin, Ruler, BedDouble, Bath } from "lucide-react";
+import { MapPin, Ruler, BedDouble, Bath, DollarSign } from "lucide-react";
 import ImageCarousel from "@/components/dashboard/ImageCarousel";
 import type { ProjectWithPhases } from "@/types/project";
 
@@ -52,6 +52,14 @@ function PublicProjects() {
                   )}
                   {project.description && (
                     <p className="text-sm text-gray-500 line-clamp-2">{project.description}</p>
+                  )}
+                  {project.sale_value && project.status === "completed" && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <DollarSign className="h-3.5 w-3.5 text-green-400" />
+                      <span className="text-green-400 font-semibold">
+                        Vendido: ${project.sale_value.toLocaleString()}
+                      </span>
+                    </div>
                   )}
                   {(project.sqft || project.bedrooms || project.bathrooms) && (
                     <div className="flex items-center gap-4 text-sm text-gray-400">

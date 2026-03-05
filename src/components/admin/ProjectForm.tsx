@@ -39,6 +39,7 @@ export default function ProjectForm({ initialData, onSubmit, submitLabel = "Guar
       sqft: initialData?.sqft ?? null,
       bedrooms: initialData?.bedrooms ?? null,
       bathrooms: initialData?.bathrooms ?? null,
+      sale_value: initialData?.sale_value ?? null,
     },
   });
 
@@ -190,6 +191,19 @@ export default function ProjectForm({ initialData, onSubmit, submitLabel = "Guar
           />
         </div>
       </div>
+
+      {watch("status") === "completed" && (
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-1">Valor de Venta</label>
+          <Input
+            type="number"
+            {...register("sale_value", { valueAsNumber: true })}
+            className="bg-white/5 border-white/10 text-white"
+            placeholder="Ej: 430000"
+          />
+          <p className="text-xs text-gray-500 mt-1">Precio final de venta del proyecto completado</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>

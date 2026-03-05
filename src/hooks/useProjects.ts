@@ -82,7 +82,7 @@ export function usePublicProjects() {
         .from("projects")
         .select("*, project_phases(*), project_images(*)")
         .eq("is_public", true)
-        .eq("status", "active")
+        .in("status", ["active", "completed"])
         .order("created_at", { ascending: false });
 
       if (error) throw error;
