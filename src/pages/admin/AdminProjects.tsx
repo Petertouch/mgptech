@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { useAdminProjects, useCreateProject, useDeleteProject } from "@/hooks/useAdminProjects";
 import ProjectForm from "@/components/admin/ProjectForm";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Settings, Loader2, MapPin, Users } from "lucide-react";
+import { Plus, Trash2, Settings, Loader2, MapPin, Users, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+type VisibilityFilter = "all" | "public" | "hidden";
 
 export default function AdminProjects() {
   const { data: projects, isLoading } = useAdminProjects();
@@ -12,6 +14,13 @@ export default function AdminProjects() {
   const deleteProject = useDeleteProject();
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
+  const [visibility, setVisibility] = useState<VisibilityFilter>("all");
+
+  const filteredProjects = projects?.filter((p) => {
+    if (visibility === "public") return p.is_public;
+    if (visibility === "hidden") return !p.is_public;
+    return true;
+  });
 
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
@@ -45,6 +54,30 @@ export default function AdminProjects() {
         </Button>
       </div>
 
+      <div className="flex items-center gap-2">
+        {([
+          { key: "all" as VisibilityFilter, label: "Todos", icon: null },
+          { key: "public" as VisibilityFilter, label: "Públicos", icon: Eye },
+          { key: "hidden" as VisibilityFilter, label: "Ocultos", icon: EyeOff },
+        ]).map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setVisibility(f.key)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+              visibility === f.key
+                ? "bg-[#0047FF] text-white"
+                : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+            }`}
+          >
+            {f.icon && <f.icon className="h-3 w-3" />}
+            {f.label}
+            {f.key === "all" && projects ? ` (${projects.length})` : ""}
+            {f.key === "public" && projects ? ` (${projects.filter(p => p.is_public).length})` : ""}
+            {f.key === "hidden" && projects ? ` (${projects.filter(p => !p.is_public).length})` : ""}
+          </button>
+        ))}
+      </div>
+
       {showForm && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6">
           <h3 className="text-lg font-semibold text-white mb-4">Crear Proyecto</h3>
@@ -58,7 +91,7 @@ export default function AdminProjects() {
         </div>
       ) : (
         <div className="space-y-3">
-          {projects?.map((project) => (
+          {filteredProjects?.map((project) => (
             <div
               key={project.id}
               className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10"
@@ -90,6 +123,16 @@ export default function AdminProjects() {
               </div>
               <span
                 className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                  project.is_public
+                    ? "bg-emerald-500/20 text-emerald-400"
+                    : "bg-gray-500/20 text-gray-400"
+                }`}
+              >
+                {project.is_public ? <Eye className="h-3 w-3 inline mr-1" /> : <EyeOff className="h-3 w-3 inline mr-1" />}
+                {project.is_public ? "Público" : "Oculto"}
+              </span>
+              <span
+                className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                   project.status === "active"
                     ? "bg-green-500/20 text-green-400"
                     : project.status === "completed"
@@ -115,8 +158,10 @@ export default function AdminProjects() {
               </div>
             </div>
           ))}
-          {projects?.length === 0 && (
-            <p className="text-center text-gray-500 py-8">No hay proyectos aún. Crea el primero.</p>
+          {filteredProjects?.length === 0 && (
+            <p className="text-center text-gray-500 py-8">
+              {visibility === "all" ? "No hay proyectos aún. Crea el primero." : "No hay proyectos en esta categoría."}
+            </p>
           )}
         </div>
       )}
