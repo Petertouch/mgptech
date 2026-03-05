@@ -53,8 +53,14 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ${hidden ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"}`} role="banner">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3" aria-label="OGF Real Estate - Ir al inicio">
-          <img src={logo} alt="OGF Real Estate Group LLC - Logo" className="h-8 sm:h-10 w-auto" width="120" height="40" />
+        <Link to="/" className="flex items-center gap-2.5" aria-label="OGF Real Estate - Ir al inicio">
+          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden flex-shrink-0">
+            <img src={logo} alt="OGF Real Estate Group LLC" className="h-[200%] w-[200%] object-cover object-[50%_18%]" />
+          </div>
+          <div className="leading-tight">
+            <span className="text-white font-bold text-sm sm:text-base tracking-wide">OGF REAL ESTATE</span>
+            <span className="block text-[9px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
