@@ -1,44 +1,44 @@
 import { ArrowRight } from "lucide-react";
-
-const services = [
-  {
-    title: "House Flipping",
-    description: "Compramos propiedades con potencial, las renovamos completamente y las convertimos en hogares modernos listos para habitar o invertir.",
-    image: "/flipping.png",
-    imageAlt: "Proyecto de house flipping - Casa renovada por OGF Real Estate",
-    features: ["Renovación integral", "Diseño actualizado", "Valor maximizado"],
-  },
-  {
-    title: "Construcción Nueva",
-    description: "Construimos tu casa ideal desde cero. Diseños modernos, materiales de primera calidad y atención al detalle en cada proyecto.",
-    image: "/construction.png",
-    imageAlt: "Construcción nueva - Casa moderna construida por OGF Real Estate",
-    features: ["Diseño personalizado", "Materiales premium", "Garantía de calidad"],
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Services = () => {
+  const { t } = useLanguage();
+
+  const services = [
+    {
+      title: t.services.flippingTitle,
+      description: t.services.flippingDesc,
+      image: "/flipping.png",
+      imageAlt: "House flipping project - Renovated house by OGF Real Estate",
+      features: t.services.flippingFeatures,
+    },
+    {
+      title: t.services.constructionTitle,
+      description: t.services.constructionDesc,
+      image: "/construction.png",
+      imageAlt: "New construction - Modern house built by OGF Real Estate",
+      features: t.services.constructionFeatures,
+    },
+  ];
+
   return (
     <section id="servicios" className="py-16 sm:py-28 bg-navy-light" aria-labelledby="servicios-titulo">
       <div className="container mx-auto px-4 sm:px-6">
-        {/* Section Header */}
         <div className="text-center mb-10 sm:mb-20">
           <h2 id="servicios-titulo" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-4 sm:mb-5">
-            Nuestros <span className="text-primary italic">Servicios</span>
+            {t.services.title} <span className="text-primary italic">{t.services.titleAccent}</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Dos líneas de negocio enfocadas en crear valor inmobiliario
+            {t.services.subtitle}
           </p>
         </div>
 
-        {/* Services Grid */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-10 max-w-5xl mx-auto">
           {services.map((service) => (
             <article
               key={service.title}
               className="group card-gradient rounded-2xl sm:rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"
             >
-              {/* Image */}
               <div className="relative h-48 sm:h-72 overflow-hidden">
                 <img
                   src={service.image}
@@ -51,7 +51,6 @@ const Services = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" aria-hidden="true" />
               </div>
 
-              {/* Content */}
               <div className="p-5 sm:p-8">
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-display text-foreground mb-3 sm:mb-4">
                   {service.title}
@@ -60,8 +59,7 @@ const Services = () => {
                   {service.description}
                 </p>
 
-                {/* Features */}
-                <ul className="space-y-2.5 sm:space-y-3" aria-label={`Características de ${service.title}`}>
+                <ul className="space-y-2.5 sm:space-y-3" aria-label={service.title}>
                   {service.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-3 text-sm text-muted-foreground">
                       <ArrowRight className="w-3.5 h-3.5 text-primary flex-shrink-0" aria-hidden="true" />

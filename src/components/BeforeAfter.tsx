@@ -1,12 +1,15 @@
 import { useState, useRef, useCallback } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface BeforeAfterSliderProps {
   before: string;
   after: string;
   alt: string;
+  beforeLabel: string;
+  afterLabel: string;
 }
 
-const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
+const BeforeAfterSlider = ({ before, after, alt, beforeLabel, afterLabel }: BeforeAfterSliderProps) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -41,17 +44,14 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleMouseUp}
       role="img"
-      aria-label={`Comparación antes y después: ${alt}`}
+      aria-label={`${beforeLabel} / ${afterLabel}: ${alt}`}
     >
-      {/* After Image (full background) */}
-      <img src={after} alt={`${alt} - Después de la renovación por OGF Real Estate`} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+      <img src={after} alt={`${alt} - ${afterLabel}`} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
 
-      {/* Before Image (clipped) */}
       <div className="absolute inset-0 overflow-hidden" style={{ width: `${sliderPosition}%` }}>
-        <img src={before} alt={`${alt} - Antes de la renovación`} className="absolute inset-0 w-full h-full object-cover" loading="lazy" style={{ minWidth: containerRef.current?.offsetWidth }} />
+        <img src={before} alt={`${alt} - ${beforeLabel}`} className="absolute inset-0 w-full h-full object-cover" loading="lazy" style={{ minWidth: containerRef.current?.offsetWidth }} />
       </div>
 
-      {/* Slider Handle */}
       <div
         className="absolute top-0 bottom-0 w-0.5 bg-white/80 cursor-col-resize"
         style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
@@ -64,36 +64,35 @@ const BeforeAfterSlider = ({ before, after, alt }: BeforeAfterSliderProps) => {
         </div>
       </div>
 
-      {/* Labels */}
-      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Antes</div>
-      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">Después</div>
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">{beforeLabel}</div>
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-[11px] px-3 py-1.5 rounded-full font-medium tracking-wide uppercase" aria-hidden="true">{afterLabel}</div>
     </figure>
   );
 };
 
 const comparisons = [
-  { before: "/before1.png", after: "/after1.png", alt: "Renovación completa de cocina y espacios interiores" },
-  { before: "/before2.png", after: "/after2.png", alt: "Transformación de fachada y exteriores de propiedad" },
+  { before: "/before1.png", after: "/after1.png", alt: "Complete kitchen and interior renovation" },
+  { before: "/before2.png", after: "/after2.png", alt: "Facade and exterior property transformation" },
 ];
 
 const BeforeAfter = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-16 sm:py-28 bg-background" aria-labelledby="antes-despues-titulo">
       <div className="container mx-auto px-4 sm:px-6">
-        {/* Section Header */}
         <div className="text-center mb-10 sm:mb-20">
           <h2 id="antes-despues-titulo" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display text-foreground mb-4 sm:mb-5">
-            Antes y <span className="text-primary italic">Después</span>
+            {t.beforeAfter.title} <span className="text-primary italic">{t.beforeAfter.titleAccent}</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Conoce las renovaciones reales de proyectos completados por OGF Real Estate
+            {t.beforeAfter.subtitle}
           </p>
         </div>
 
-        {/* Before/After Grid */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-10 max-w-5xl mx-auto">
           {comparisons.map((comp, index) => (
-            <BeforeAfterSlider key={index} {...comp} />
+            <BeforeAfterSlider key={index} {...comp} beforeLabel={t.beforeAfter.before} afterLabel={t.beforeAfter.after} />
           ))}
         </div>
       </div>

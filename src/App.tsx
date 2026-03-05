@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Blog from "./pages/Blog";
@@ -36,6 +37,7 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <HelmetProvider>
+    <LanguageProvider>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
@@ -74,6 +76,7 @@ const App = () => (
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
+    </LanguageProvider>
   </HelmetProvider>
 );
 

@@ -1,22 +1,25 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 import { LogOut, LayoutDashboard, Shield, User, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import logoIcon from "@/assets/logo-icon.png";
-
-const NAV_LINKS = [
-  { label: "Proyectos", to: "/#proyectos" },
-  { label: "Servicios", to: "/servicios" },
-  { label: "Contacto", to: "/contacto" },
-];
 
 const Header = ({ hidden = false }: { hidden?: boolean }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, isAdmin, isInvestor, logout, loading } = useAuth();
+  const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const NAV_LINKS = [
+    { label: t.nav.proyectos, to: "/#proyectos" },
+    { label: t.nav.servicios, to: "/servicios" },
+    { label: t.nav.contacto, to: "/contacto" },
+  ];
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -53,7 +56,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
   return (
     <header style={mobileMenuOpen ? { backgroundColor: "#030712" } : undefined} className={`fixed top-0 left-0 right-0 z-50 ${mobileMenuOpen ? "" : "bg-background/70 backdrop-blur-xl"} border-b border-white/5 transition-all duration-300 ${hidden ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"}`} role="banner">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5" aria-label="OGF Real Estate - Ir al inicio">
+        <Link to="/" className="flex items-center gap-2.5" aria-label="OGF Real Estate">
           <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden flex-shrink-0">
             <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-full w-full object-cover" />
           </div>
@@ -64,7 +67,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8" aria-label="Navegación principal">
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           {NAV_LINKS.map(({ label, to }) => (
             <Link
               key={to}
@@ -76,11 +79,13 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
             </Link>
           ))}
           <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-medium tracking-wide uppercase">
-            Blog
+            {t.nav.blog}
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <LanguageToggle />
+
           {/* Auth section */}
           {!loading && (
             user ? (
@@ -105,7 +110,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5"
                       >
-                        <LayoutDashboard className="h-4 w-4" /> Mi Dashboard
+                        <LayoutDashboard className="h-4 w-4" /> {t.nav.dashboard}
                       </Link>
                     )}
                     {isAdmin && (
@@ -114,14 +119,14 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5"
                       >
-                        <Shield className="h-4 w-4" /> Panel Admin
+                        <Shield className="h-4 w-4" /> {t.nav.admin}
                       </Link>
                     )}
                     <button
                       onClick={() => { logout(); setMenuOpen(false); }}
                       className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-red-400 hover:bg-white/5 w-full"
                     >
-                      <LogOut className="h-4 w-4" /> Cerrar Sesión
+                      <LogOut className="h-4 w-4" /> {t.nav.logout}
                     </button>
                   </div>
                 )}
@@ -131,7 +136,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
                 to="/login"
                 className="hidden sm:flex bg-[#0047FF] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#0035cc] transition-all duration-300 hover:shadow-lg hover:shadow-[#0047FF]/25 items-center gap-2"
               >
-                Portal Inversionistas
+                {t.nav.portal}
               </Link>
             )
           )}
@@ -140,7 +145,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -150,7 +155,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-0 top-[57px] z-40" style={{ backgroundColor: "#030712" }}>
-          <nav className="flex flex-col px-6 py-8 space-y-1" aria-label="Navegación móvil">
+          <nav className="flex flex-col px-6 py-8 space-y-1" aria-label="Mobile navigation">
             {NAV_LINKS.map(({ label, to }) => (
               <Link
                 key={to}
@@ -166,7 +171,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
               onClick={() => setMobileMenuOpen(false)}
               className="text-lg text-gray-300 hover:text-white py-3.5 border-b border-white/5 font-medium transition-colors"
             >
-              Blog
+              {t.nav.blog}
             </Link>
 
             {!loading && !user && (
@@ -176,7 +181,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 bg-[#0047FF] text-white w-full py-3.5 rounded-xl font-medium text-base hover:bg-[#0035cc] transition-colors"
                 >
-                  Portal Inversionistas
+                  {t.nav.portal}
                 </Link>
               </div>
             )}

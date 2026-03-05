@@ -7,11 +7,11 @@ import { MapPin, Ruler, BedDouble, Bath, DollarSign, Loader2, X, Home } from "lu
 import ImageCarousel from "@/components/dashboard/ImageCarousel";
 import type { ProjectWithPhases } from "@/types/project";
 import { useState, useRef, useEffect, useMemo, memo } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type ProjectFilter = "all" | "active" | "completed";
 type PriceRange = "all" | "under200" | "200to400" | "over400";
 
-// Memoized project card to prevent re-renders
 const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: ProjectWithPhases; onClick: () => void }) {
   return (
     <div
@@ -65,8 +65,9 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
   );
 });
 
-// Project detail modal
 function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClose: () => void }) {
+  const { t } = useLanguage();
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -84,25 +85,14 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
         className="relative bg-[#0a0f2c] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
-        >
+        <button onClick={onClose} className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors">
           <X className="h-5 w-5" />
         </button>
 
-        {/* Images */}
         <div className="h-56 sm:h-72">
-          <ImageCarousel
-            images={project.project_images ?? []}
-            coverImage={project.cover_image}
-            alt={project.name}
-            fallbackLetter={project.name.charAt(0)}
-          />
+          <ImageCarousel images={project.project_images ?? []} coverImage={project.cover_image} alt={project.name} fallbackLetter={project.name.charAt(0)} />
         </div>
 
-        {/* Content */}
         <div className="p-5 sm:p-6 space-y-4">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-white">{project.name}</h2>
@@ -113,7 +103,6 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
             )}
           </div>
 
-          {/* Stats */}
           <div className="flex flex-wrap gap-3">
             {project.sale_value && project.status === "completed" && (
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20">
@@ -130,36 +119,30 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
             {project.bedrooms && (
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
                 <BedDouble className="h-4 w-4 text-gray-400" />
-                <span className="text-white text-sm">{project.bedrooms} hab.</span>
+                <span className="text-white text-sm">{project.bedrooms} {t.projects.beds}</span>
               </div>
             )}
             {project.bathrooms && (
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
                 <Bath className="h-4 w-4 text-gray-400" />
-                <span className="text-white text-sm">{project.bathrooms} baños</span>
+                <span className="text-white text-sm">{project.bathrooms} {t.projects.baths}</span>
               </div>
             )}
             <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
               <Home className="h-4 w-4 text-gray-400" />
               <span className="text-white text-sm">
-                {project.investment_type === "new_construction" ? "Construcción Nueva" : "House Flipping"}
+                {project.investment_type === "new_construction" ? t.projects.newConstruction : t.projects.houseFlipping}
               </span>
             </div>
           </div>
 
-          {/* Description */}
           {project.description && (
             <p className="text-sm text-gray-300 leading-relaxed">{project.description}</p>
           )}
 
-          {/* CTA */}
           <div className="pt-2">
-            <Link
-              to="/login"
-              onClick={onClose}
-              className="inline-flex items-center gap-2 bg-[#0047FF] text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[#0035cc] transition-colors"
-            >
-              Más información — Portal Inversionistas
+            <Link to="/login" onClick={onClose} className="inline-flex items-center gap-2 bg-[#0047FF] text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[#0035cc] transition-colors">
+              {t.projects.moreInfo}
             </Link>
           </div>
         </div>
@@ -168,10 +151,10 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
   );
 }
 
-// Known locations for the filter dropdown (avoids an extra query)
 const KNOWN_LOCATIONS = ["Florida", "Georgia", "Ohio"];
 
 function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) => void }) {
+  const { t } = useLanguage();
   const [filter, setFilter] = useState<ProjectFilter>("all");
   const [location, setLocation] = useState("all");
   const [investmentType, setInvestmentType] = useState("all");
@@ -184,139 +167,90 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const filters: PublicProjectsFilters = useMemo(() => ({
-    status: filter,
-    location,
-    investmentType,
-    minBedrooms,
-    minBathrooms,
-    priceRange,
+    status: filter, location, investmentType, minBedrooms, minBathrooms, priceRange,
   }), [filter, location, investmentType, minBedrooms, minBathrooms, priceRange]);
 
-  const {
-    data,
-    isLoading,
-    isFetchingNextPage,
-    hasNextPage,
-    fetchNextPage,
-  } = usePublicProjectsPaginated(filters);
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = usePublicProjectsPaginated(filters);
 
-  const allProjects = useMemo(
-    () => data?.pages.flatMap((page) => page.projects) ?? [],
-    [data]
-  );
-
+  const allProjects = useMemo(() => data?.pages.flatMap((page) => page.projects) ?? [], [data]);
   const totalCount = data?.pages[0]?.total ?? 0;
 
-  // Sticky detection
   useEffect(() => {
     const el = stickyRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        const sticky = !entry.isIntersecting;
-        setIsSticky(sticky);
-        onStickyChange(sticky);
-      },
+      ([entry]) => { const sticky = !entry.isIntersecting; setIsSticky(sticky); onStickyChange(sticky); },
       { threshold: 0, rootMargin: "-1px 0px 0px 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, [onStickyChange]);
 
-  // Infinite scroll: only auto-load after user has scrolled past first batch
   const pageCount = data?.pages.length ?? 0;
   useEffect(() => {
-    if (pageCount < 2) return;           // first expansion is manual via button
+    if (pageCount < 2) return;
     const el = loadMoreRef.current;
     if (!el || !hasNextPage || isFetchingNextPage) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0 }
-    );
+    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) fetchNextPage(); }, { threshold: 0 });
     observer.observe(el);
     return () => observer.disconnect();
   }, [pageCount, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const statusFilters: { key: ProjectFilter; label: string }[] = [
-    { key: "all", label: "Todos" },
-    { key: "active", label: "En Proceso" },
-    { key: "completed", label: "Completados" },
+    { key: "all", label: t.projects.all },
+    { key: "active", label: t.projects.active },
+    { key: "completed", label: t.projects.completed },
   ];
 
   const selectClass = "bg-white/5 border border-white/10 text-gray-400 text-xs rounded-lg px-2.5 py-1.5 outline-none focus:border-[#0047FF]/50 transition-colors appearance-none cursor-pointer";
 
   return (
     <section id="proyectos" className="bg-[#060a1f] pb-16 sm:pb-20 min-h-screen">
-      {/* Sentinel for sticky detection */}
       <div ref={stickyRef} className="h-0" />
-
-      {/* Sticky header bar */}
       <div className={`sticky top-0 z-30 bg-[#060a1f]/95 backdrop-blur-sm transition-shadow duration-300 ${isSticky ? "shadow-lg shadow-black/30" : ""}`}>
         <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 transition-all duration-300 ${isSticky ? "sm:justify-center" : "sm:justify-center sm:flex-col sm:items-center"}`}>
             <h2 className={`font-bold text-white whitespace-nowrap transition-all duration-300 ${isSticky ? "hidden" : "text-2xl sm:text-3xl md:text-4xl sm:mb-2"}`}>
-              Nuestros <span className="text-[#0047FF]">Proyectos</span>
+              {t.projects.title} <span className="text-[#0047FF]">{t.projects.titleAccent}</span>
             </h2>
             <div className={`flex flex-wrap items-center gap-2 transition-all duration-300 ${isSticky ? "justify-center" : "justify-center"}`}>
               {statusFilters.map((f) => (
-                <button
-                  key={f.key}
-                  onClick={() => setFilter(f.key)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${
-                    filter === f.key
-                      ? "bg-[#0047FF] text-white shadow-lg shadow-[#0047FF]/25"
-                      : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
-                  }`}
-                >
+                <button key={f.key} onClick={() => setFilter(f.key)} className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${filter === f.key ? "bg-[#0047FF] text-white shadow-lg shadow-[#0047FF]/25" : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"}`}>
                   {f.label}
                 </button>
               ))}
               <div className="h-4 w-px bg-white/10 mx-1 hidden sm:block" />
               <select value={location} onChange={(e) => setLocation(e.target.value)} className={selectClass}>
-                <option value="all">Ubicación</option>
+                <option value="all">{t.projects.location}</option>
                 {KNOWN_LOCATIONS.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
               </select>
               <select value={investmentType} onChange={(e) => setInvestmentType(e.target.value)} className={selectClass}>
-                <option value="all">Tipo</option>
-                <option value="house_flipping">House Flipping</option>
-                <option value="new_construction">Construcción Nueva</option>
+                <option value="all">{t.projects.type}</option>
+                <option value="house_flipping">{t.projects.houseFlipping}</option>
+                <option value="new_construction">{t.projects.newConstruction}</option>
               </select>
               <select value={minBedrooms} onChange={(e) => setMinBedrooms(Number(e.target.value))} className={selectClass}>
-                <option value={0}>Hab.</option>
-                <option value={1}>1+</option>
-                <option value={2}>2+</option>
-                <option value={3}>3+</option>
-                <option value={4}>4+</option>
+                <option value={0}>{t.projects.bedrooms}</option>
+                <option value={1}>1+</option><option value={2}>2+</option><option value={3}>3+</option><option value={4}>4+</option>
               </select>
               <select value={minBathrooms} onChange={(e) => setMinBathrooms(Number(e.target.value))} className={selectClass}>
-                <option value={0}>Baños</option>
-                <option value={1}>1+</option>
-                <option value={2}>2+</option>
-                <option value={3}>3+</option>
+                <option value={0}>{t.projects.bathrooms}</option>
+                <option value={1}>1+</option><option value={2}>2+</option><option value={3}>3+</option>
               </select>
               <select value={priceRange} onChange={(e) => setPriceRange(e.target.value as PriceRange)} className={selectClass}>
-                <option value="all">Precio</option>
-                <option value="under200">&lt; $200k</option>
-                <option value="200to400">$200k-$400k</option>
-                <option value="over400">&gt; $400k</option>
+                <option value="all">{t.projects.price}</option>
+                <option value="under200">&lt; $200k</option><option value="200to400">$200k-$400k</option><option value="over400">&gt; $400k</option>
               </select>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Project cards */}
       <div className="container mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
         {isLoading ? (
-          <div className="flex justify-center py-12">
-            <Loader2 className="h-6 w-6 text-[#0047FF] animate-spin" />
-          </div>
+          <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 text-[#0047FF] animate-spin" /></div>
         ) : allProjects.length === 0 ? (
-          <p className="text-center text-gray-500 py-12">No hay proyectos en esta categoría.</p>
+          <p className="text-center text-gray-500 py-12">{t.projects.noProjects}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto">
             {allProjects.map((project: ProjectWithPhases) => (
@@ -325,52 +259,35 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
           </div>
         )}
 
-        {/* Load more: button for first page, auto-scroll after */}
         {hasNextPage && !isFetchingNextPage && pageCount < 2 && (
           <div className="flex justify-center py-6">
-            <button
-              onClick={() => fetchNextPage()}
-              className="px-5 py-2 rounded-full text-xs font-medium bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10 transition-all"
-            >
-              Ver más proyectos
+            <button onClick={() => fetchNextPage()} className="px-5 py-2 rounded-full text-xs font-medium bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10 transition-all">
+              {t.projects.viewMore}
             </button>
           </div>
         )}
 
-        {isFetchingNextPage && (
-          <div className="flex justify-center py-6">
-            <Loader2 className="h-5 w-5 text-[#0047FF] animate-spin" />
-          </div>
-        )}
+        {isFetchingNextPage && <div className="flex justify-center py-6"><Loader2 className="h-5 w-5 text-[#0047FF] animate-spin" /></div>}
 
-        {/* Sentinel for auto-load after first manual expansion */}
         <div ref={loadMoreRef} className="h-1" />
 
         {!isLoading && allProjects.length > 0 && !hasNextPage && (
-          <p className="text-center text-gray-600 text-xs mt-4">
-            {allProjects.length} de {totalCount} proyectos
-          </p>
+          <p className="text-center text-gray-600 text-xs mt-4">{allProjects.length} {t.projects.of} {totalCount}</p>
         )}
 
         <div className="text-center mt-6 sm:mt-8">
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 text-[#0047FF] hover:underline text-xs sm:text-sm font-medium"
-          >
-            Accede al portal de inversionistas para más información
+          <Link to="/login" className="inline-flex items-center gap-2 text-[#0047FF] hover:underline text-xs sm:text-sm font-medium">
+            {t.projects.portalCta}
           </Link>
         </div>
       </div>
-      {selectedProject && (
-        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-      )}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
     </section>
   );
 }
 
 const Index = () => {
   const [projectsSticky, setProjectsSticky] = useState(false);
-
   return (
     <div className="min-h-screen bg-background">
       <Header hidden={projectsSticky} />
