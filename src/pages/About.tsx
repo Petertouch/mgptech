@@ -63,7 +63,10 @@ const About = () => {
               <div className="card-gradient rounded-2xl border border-white/5 p-6 sm:p-8 opacity-0 animate-fade-in-up animation-delay-200">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center"><Globe className="w-5 h-5 text-primary" /></div>
-                  <h3 className="text-lg font-semibold text-white">MGP Seven Island LLC</h3>
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    MGP Seven Island LLC
+                    <svg className="w-6 h-4 flex-shrink-0 rounded-[2px] shadow-sm" viewBox="0 0 60 40" aria-label="USA"><rect width="60" height="40" fill="#B22234"/><rect y="3.08" width="60" height="3.08" fill="#fff"/><rect y="9.23" width="60" height="3.08" fill="#fff"/><rect y="15.38" width="60" height="3.08" fill="#fff"/><rect y="21.54" width="60" height="3.08" fill="#fff"/><rect y="27.69" width="60" height="3.08" fill="#fff"/><rect y="33.85" width="60" height="3.08" fill="#fff"/><rect width="24" height="21.54" fill="#3C3B6E"/></svg>
+                  </h3>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t.about.mgpSevenDesc}</p>
                 <div className="flex gap-2 mt-4">
@@ -75,7 +78,10 @@ const About = () => {
               <div className="card-gradient rounded-2xl border border-white/5 p-6 sm:p-8 opacity-0 animate-fade-in-up animation-delay-400">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center"><Hammer className="w-5 h-5 text-primary" /></div>
-                  <h3 className="text-lg font-semibold text-white">MGP Constructions Corp</h3>
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    MGP Constructions Corp
+                    <svg className="w-6 h-4 flex-shrink-0 rounded-[2px] shadow-sm" viewBox="0 0 60 40" aria-label="Panamá"><rect width="60" height="20" fill="#fff"/><rect y="20" width="60" height="20" fill="#fff"/><rect width="30" height="20" fill="#fff"/><rect x="30" y="0" width="30" height="20" fill="#D21034"/><rect x="0" y="20" width="30" height="20" fill="#0047AB"/><polygon points="15,5 16.5,9.5 21,9.5 17.5,12.5 18.8,17 15,14 11.2,17 12.5,12.5 9,9.5 13.5,9.5" fill="#0047AB"/><polygon points="45,25 46.5,29.5 51,29.5 47.5,32.5 48.8,37 45,34 41.2,37 42.5,32.5 39,29.5 43.5,29.5" fill="#D21034"/></svg>
+                  </h3>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t.about.mgpConstructionsDesc}</p>
                 <div className="flex gap-2 mt-4">
