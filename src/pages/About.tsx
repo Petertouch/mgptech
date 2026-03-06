@@ -71,8 +71,6 @@ const About = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">{t.about.mgpSevenDesc}</p>
                 <div className="flex gap-2 mt-4">
                   <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400">USA</span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400">Panamá</span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400">Colombia</span>
                 </div>
               </div>
               <div className="card-gradient rounded-2xl border border-white/5 p-6 sm:p-8 opacity-0 animate-fade-in-up animation-delay-400">
