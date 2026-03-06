@@ -8,7 +8,7 @@ const About = () => {
 
   const STATS = [
     { value: "25+", label: t.about.stats.years, icon: Clock },
-    { value: "$325M+", label: t.about.stats.executed, icon: DollarSign },
+    { value: "$420M+", label: t.about.stats.executed, icon: DollarSign },
     { value: "55+", label: t.about.stats.stateProjects, icon: FolderKanban },
     { value: "100+", label: t.about.stats.residential, icon: Hammer },
   ];
@@ -86,7 +86,7 @@ const About = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">{t.about.mgpConstructionsDesc}</p>
                 <div className="flex gap-2 mt-4">
                   <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">{t.about.years25}</span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">$325M+</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">$420M+</span>
                 </div>
               </div>
             </div>
