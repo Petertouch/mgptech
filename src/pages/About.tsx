@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Building2, TrendingUp, Rocket, Clock, DollarSign, FolderKanban, Hammer, Globe, ArrowDown, Shield } from "lucide-react";
+import { Building2, TrendingUp, Rocket, Clock, DollarSign, FolderKanban, Hammer, Globe, ArrowDown, Shield, Scale } from "lucide-react";
 
 const About = () => {
   const { t } = useLanguage();
@@ -17,6 +17,7 @@ const About = () => {
     { name: "Mauricio Paba", role: t.about.mauricioRole, icon: Building2, description: t.about.mauricioDesc },
     { name: "Daniel Londoño", role: t.about.danielRole, icon: TrendingUp, description: t.about.danielDesc },
     { name: "Pedro Tobar", role: t.about.pedroRole, icon: Rocket, description: t.about.pedroDesc },
+    { name: "Gloria Rodríguez", role: t.about.gloriaRole, icon: Scale, description: t.about.gloriaDesc },
   ];
 
   return (
@@ -113,7 +114,7 @@ const About = () => {
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto opacity-0 animate-fade-in-up animation-delay-200">{t.about.teamSubtitle}</p>
             </div>
-            <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {TEAM.map((member, i) => (
                 <div key={member.name} className={`card-gradient rounded-2xl border border-white/5 p-6 sm:p-8 text-center group hover:border-primary/30 transition-all duration-500 opacity-0 animate-fade-in-up animation-delay-${(i + 1) * 200}`}>
                   <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
