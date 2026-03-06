@@ -80,7 +80,7 @@ const About = () => {
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center"><Hammer className="w-5 h-5 text-primary" /></div>
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     MGP Constructions Corp
-                    <svg className="w-6 h-4 flex-shrink-0 rounded-[2px] shadow-sm" viewBox="0 0 60 40" aria-label="Panamá"><rect width="60" height="20" fill="#fff"/><rect y="20" width="60" height="20" fill="#fff"/><rect width="30" height="20" fill="#fff"/><rect x="30" y="0" width="30" height="20" fill="#D21034"/><rect x="0" y="20" width="30" height="20" fill="#0047AB"/><polygon points="15,5 16.5,9.5 21,9.5 17.5,12.5 18.8,17 15,14 11.2,17 12.5,12.5 9,9.5 13.5,9.5" fill="#0047AB"/><polygon points="45,25 46.5,29.5 51,29.5 47.5,32.5 48.8,37 45,34 41.2,37 42.5,32.5 39,29.5 43.5,29.5" fill="#D21034"/></svg>
+                    <svg className="w-6 h-4 flex-shrink-0 rounded-[2px] shadow-sm" viewBox="0 0 60 40" aria-label="Colombia"><rect width="60" height="20" fill="#FCD116"/><rect y="20" width="60" height="10" fill="#003893"/><rect y="30" width="60" height="10" fill="#CE1126"/></svg>
                   </h3>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t.about.mgpConstructionsDesc}</p>
