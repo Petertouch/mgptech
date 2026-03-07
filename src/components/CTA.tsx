@@ -1,6 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const WHATSAPP_LINK = "https://wa.me/573124426783";
+const WHATSAPP_LINK = "https://wa.me/573124426783?text=Hola%2C%20estuve%20en%20tu%20p%C3%A1gina%20web%20de%20OGF%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n.";
 
 const CTA = () => {
   const { t } = useLanguage();
