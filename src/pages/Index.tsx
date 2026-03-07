@@ -18,13 +18,18 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
       onClick={onClick}
       className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300 cursor-pointer"
     >
-      <div className="h-28 sm:h-36 overflow-hidden">
+      <div className="relative h-28 sm:h-36 overflow-hidden">
         <ImageCarousel
           images={project.project_images ?? []}
           coverImage={project.cover_image}
           alt={project.name}
           fallbackLetter={project.name.charAt(0)}
         />
+        {project.status === "active" && (
+          <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-primary text-white text-[9px] sm:text-xs font-bold px-2 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-lg animate-pulse">
+            En proceso — Invierte
+          </div>
+        )}
       </div>
       <div className="p-2 sm:p-3.5 space-y-1 sm:space-y-2">
         <h3 className="text-xs sm:text-base font-semibold text-white leading-tight">{project.name}</h3>
