@@ -26,8 +26,8 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
           fallbackLetter={project.name.charAt(0)}
         />
         {project.status === "active" && (
-          <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white text-[10px] sm:text-sm font-extrabold px-3 py-1.5 sm:py-2 text-center tracking-wider shadow-xl shadow-orange-500/30 uppercase">
-            🔥 En proceso — ¡Invierte ahora! 🔥
+          <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white text-[9px] sm:text-xs font-extrabold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-xl shadow-orange-500/30 uppercase tracking-wide">
+            🔥 ¡Invierte ahora!
           </div>
         )}
       </div>
