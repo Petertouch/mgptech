@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { QRCodeSVG } from "qrcode.react";
-import { Save, QrCode, User, Building2, Phone, Mail, Globe, MapPin } from "lucide-react";
+import { Save, QrCode, User, Building2, Phone, Mail, Globe, MapPin, Upload, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
 import {
   useContactInfo,
   useSaveContactInfo,
@@ -18,8 +19,29 @@ export default function AdminContacto() {
   const saveMutation = useSaveContactInfo();
   const { toast } = useToast();
 
-  const { register, handleSubmit, reset, watch } = useForm<ContactInfo>();
+  const { register, handleSubmit, reset, watch, setValue } = useForm<ContactInfo>();
   const watched = watch();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `contact/${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage.from("project-photos").upload(path, file);
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabase.storage.from("project-photos").getPublicUrl(path);
+      setValue("photo_url", urlData.publicUrl);
+      toast({ title: "Foto subida" });
+    } catch (err) {
+      toast({ title: "Error al subir foto", description: err instanceof Error ? err.message : "Error", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (contact) reset(contact);
@@ -95,8 +117,17 @@ export default function AdminContacto() {
                 <Input {...register("company")} className="bg-white/5 border-white/10 text-white" />
               </div>
               <div>
-                <Label className="text-gray-400">URL Foto (opcional)</Label>
-                <Input {...register("photo_url")} className="bg-white/5 border-white/10 text-white" placeholder="https://..." />
+                <Label className="text-gray-400">Foto de contacto</Label>
+                <div className="flex items-center gap-2">
+                  <Input {...register("photo_url")} className="bg-white/5 border-white/10 text-white flex-1 text-xs" placeholder="URL o sube archivo →" readOnly={uploading} />
+                  <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
+                  <Button type="button" variant="outline" size="sm" disabled={uploading} onClick={() => fileRef.current?.click()} className="border-white/10 text-gray-400 hover:text-white shrink-0">
+                    {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                  </Button>
+                </div>
+                {watched.photo_url && (
+                  <img src={watched.photo_url} alt="Preview" className="mt-2 w-12 h-12 rounded-full object-cover border border-white/10" />
+                )}
               </div>
             </div>
           </fieldset>
@@ -196,8 +227,13 @@ export default function AdminContacto() {
               <QRCodeSVG
                 value={vcard}
                 size={200}
-                level="M"
-                includeMargin={false}
+                level="H"
+                imageSettings={{
+                  src: "/logo.png",
+                  height: 40,
+                  width: 40,
+                  excavate: true,
+                }}
               />
             </div>
             <p className="text-gray-400 text-xs mt-4">
@@ -208,18 +244,34 @@ export default function AdminContacto() {
             </p>
           </div>
 
-          {/* Preview Card */}
-          {watched.full_name && (
-            <div className="bg-white/5 rounded-xl p-5 border border-white/10 space-y-2">
-              <h3 className="text-white font-semibold text-sm">Vista previa del contacto</h3>
-              <p className="text-white font-medium">{watched.full_name}</p>
-              {watched.title && <p className="text-gray-400 text-sm">{watched.title}</p>}
-              {watched.company && <p className="text-gray-400 text-sm">{watched.company}</p>}
-              {watched.phone && <p className="text-gray-400 text-sm">{watched.phone}</p>}
-              {watched.email && <p className="text-gray-400 text-sm">{watched.email}</p>}
-              {watched.website && <p className="text-[#0047FF] text-sm">{watched.website}</p>}
-            </div>
-          )}
+          {/* Preview Card — shows exactly how the contact will appear */}
+          <div className="bg-white/5 rounded-xl p-5 border border-white/10 space-y-3">
+            <h3 className="text-white font-semibold text-sm mb-3">Así se verá el contacto guardado</h3>
+            {([
+              { label: "Nombre", value: watched.full_name },
+              { label: "Cargo", value: watched.title },
+              { label: "Empresa", value: watched.company },
+              { label: "Teléfono", value: watched.phone },
+              { label: "WhatsApp", value: watched.whatsapp },
+              { label: "Email", value: watched.email },
+              { label: "Sitio web", value: watched.website },
+              { label: "Dirección", value: [watched.address, watched.city, watched.state, watched.zip, watched.country].filter(Boolean).join(", ") },
+              { label: "Instagram", value: watched.instagram },
+              { label: "Facebook", value: watched.facebook },
+              { label: "LinkedIn", value: watched.linkedin },
+              { label: "Foto", value: watched.photo_url },
+            ] as { label: string; value: string | undefined }[])
+              .filter((f) => f.value)
+              .map((f) => (
+                <div key={f.label} className="flex gap-2 text-sm">
+                  <span className="text-gray-500 min-w-[80px] shrink-0">{f.label}:</span>
+                  <span className="text-white break-all">{f.value}</span>
+                </div>
+              ))}
+            {!watched.full_name && (
+              <p className="text-gray-600 text-xs italic">Llena los campos para ver la vista previa.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

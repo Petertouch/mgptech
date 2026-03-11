@@ -39,8 +39,13 @@ const Contacto = () => {
                     <QRCodeSVG
                       value={vcard}
                       size={280}
-                      level="M"
-                      includeMargin={false}
+                      level="H"
+                      imageSettings={{
+                        src: "/logo.png",
+                        height: 50,
+                        width: 50,
+                        excavate: true,
+                      }}
                     />
                   </div>
                   <p className="text-muted-foreground text-sm mt-4">
