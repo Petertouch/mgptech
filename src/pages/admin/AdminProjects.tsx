@@ -168,8 +168,8 @@ export default function AdminProjects() {
                   {project.status === "active" ? "Activo" : project.status === "completed" ? "Completado" : "Pausado"}
                 </span>
 
-                {/* Open for investment toggle */}
-                <div className="flex items-center gap-2">
+                {/* 🔥 INVIERTE AHORA toggle */}
+                <div className="flex items-center gap-2 pl-2 border-l border-white/10">
                   <Switch
                     checked={project.open_for_investment}
                     onCheckedChange={(checked) => {
@@ -178,8 +178,10 @@ export default function AdminProjects() {
                         {
                           onSuccess: () =>
                             toast({
-                              title: checked ? "Abierto a inversión" : "Cerrado a inversión",
-                              description: `"${project.name}" ${checked ? "ahora acepta inversión." : "ya no acepta inversión."}`,
+                              title: checked
+                                ? "🔥 ¡Invierte Ahora! activado"
+                                : "¡Invierte Ahora! desactivado",
+                              description: `"${project.name}"`,
                             }),
                           onError: () =>
                             toast({ title: "Error al actualizar", variant: "destructive" }),
@@ -187,13 +189,15 @@ export default function AdminProjects() {
                       );
                     }}
                   />
-                  <span className="text-xs w-20">
-                    {project.open_for_investment ? (
-                      <span className="text-[#0047FF] flex items-center gap-1"><DollarSign className="h-3 w-3" /> Invertir</span>
-                    ) : (
-                      <span className="text-gray-500 flex items-center gap-1"><EyeOff className="h-3 w-3" /> Cerrado</span>
-                    )}
-                  </span>
+                  {project.open_for_investment ? (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white whitespace-nowrap">
+                      🔥 INVIERTE
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-gray-500 whitespace-nowrap">
+                      Sin badge
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-1">
