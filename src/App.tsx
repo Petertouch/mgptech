@@ -21,6 +21,7 @@ import AdminProjectEdit from "./pages/admin/AdminProjectEdit";
 import AdminInvestors from "./pages/admin/AdminInvestors";
 import AdminBlog from "./pages/admin/AdminBlog";
 import AdminBlogEdit from "./pages/admin/AdminBlogEdit";
+import AdminContacto from "./pages/admin/AdminContacto";
 import Servicios from "./pages/Servicios";
 import About from "./pages/About";
 
@@ -67,6 +68,7 @@ const App = () => (
                 <Route path="investors" element={<AdminInvestors />} />
                 <Route path="blog" element={<AdminBlog />} />
                 <Route path="blog/:id" element={<AdminBlogEdit />} />
+                <Route path="contacto" element={<AdminContacto />} />
               </Route>
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

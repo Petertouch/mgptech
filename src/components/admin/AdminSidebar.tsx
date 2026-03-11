@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, FolderKanban, Users, FileText, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Users, FileText, QrCode, LogOut, Home } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const links = [
@@ -7,6 +7,7 @@ const links = [
   { to: "/admin/projects", icon: FolderKanban, label: "Proyectos", end: false },
   { to: "/admin/investors", icon: Users, label: "Inversionistas", end: false },
   { to: "/admin/blog", icon: FileText, label: "Blog", end: false },
+  { to: "/admin/contacto", icon: QrCode, label: "Contacto QR", end: false },
 ];
 
 export default function AdminSidebar() {
