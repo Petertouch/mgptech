@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export interface ContactInfo {
@@ -46,7 +45,7 @@ export function useContactInfo() {
   return useQuery({
     queryKey: ["contact_info"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from("blog_posts")
         .select("content")
         .eq("slug", CONTACT_SLUG)
