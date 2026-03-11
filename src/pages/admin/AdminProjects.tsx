@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAdminProjects, useCreateProject, useDeleteProject } from "@/hooks/useAdminProjects";
+import { useAdminProjects, useCreateProject, useDeleteProject, useUpdateProject } from "@/hooks/useAdminProjects";
 import ProjectForm from "@/components/admin/ProjectForm";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Settings, Loader2, MapPin, Users, Eye, EyeOff, Search } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Plus, Trash2, Settings, Loader2, MapPin, Users, Eye, EyeOff, Search, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type VisibilityFilter = "all" | "public" | "hidden";
@@ -12,6 +13,7 @@ export default function AdminProjects() {
   const { data: projects, isLoading } = useAdminProjects();
   const createProject = useCreateProject();
   const deleteProject = useDeleteProject();
+  const updateProject = useUpdateProject();
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [visibility, setVisibility] = useState<VisibilityFilter>("all");
@@ -107,73 +109,110 @@ export default function AdminProjects() {
         </div>
       ) : (
         <div className="space-y-3">
-          {filteredProjects?.map((project) => (
-            <div
-              key={project.id}
-              className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10"
-            >
-              {project.cover_image ? (
-                <img
-                  src={project.cover_image}
-                  alt={project.name}
-                  className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                />
-              ) : (
-                <div className="w-16 h-16 rounded-lg bg-[#0047FF]/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-bold text-[#0047FF]">{project.name.charAt(0)}</span>
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-white">{project.name}</p>
-                <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
-                  {project.location && (
+          {filteredProjects?.map((project) => {
+            const investorCount = project.project_investors?.length ?? 0;
+            const totalInvested = project.project_investors?.reduce(
+              (sum, inv) => sum + Number(inv.invested_amount || 0), 0
+            ) ?? 0;
+            const hasInvestors = investorCount > 0;
+
+            return (
+              <div
+                key={project.id}
+                className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10"
+              >
+                {project.cover_image ? (
+                  <img
+                    src={project.cover_image}
+                    alt={project.name}
+                    className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-lg bg-[#0047FF]/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-bold text-[#0047FF]">{project.name.charAt(0)}</span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-white">{project.name}</p>
+                  <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
+                    {project.location && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="h-3 w-3" /> {project.location}
+                      </span>
+                    )}
                     <span className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3" /> {project.location}
+                      <Users className="h-3 w-3" /> {investorCount} inv.
                     </span>
-                  )}
-                  <span className="flex items-center gap-1">
-                    <Users className="h-3 w-3" /> {project.project_investors?.length ?? 0} inv.
+                    <span>Fase {project.current_phase}/5</span>
+                  </div>
+                </div>
+
+                {/* Investment info */}
+                {hasInvestors && (
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
+                    <DollarSign className="h-3 w-3" />
+                    ${totalInvested.toLocaleString()}
                   </span>
-                  <span>Fase {project.current_phase}/5</span>
+                )}
+
+                {/* Status badge */}
+                <span
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                    project.status === "active"
+                      ? "bg-green-500/20 text-green-400"
+                      : project.status === "completed"
+                      ? "bg-blue-500/20 text-blue-400"
+                      : "bg-amber-500/20 text-amber-400"
+                  }`}
+                >
+                  {project.status === "active" ? "Activo" : project.status === "completed" ? "Completado" : "Pausado"}
+                </span>
+
+                {/* Open for investment toggle */}
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={project.open_for_investment}
+                    onCheckedChange={(checked) => {
+                      updateProject.mutate(
+                        { id: project.id, open_for_investment: checked },
+                        {
+                          onSuccess: () =>
+                            toast({
+                              title: checked ? "Abierto a inversión" : "Cerrado a inversión",
+                              description: `"${project.name}" ${checked ? "ahora acepta inversión." : "ya no acepta inversión."}`,
+                            }),
+                          onError: () =>
+                            toast({ title: "Error al actualizar", variant: "destructive" }),
+                        }
+                      );
+                    }}
+                  />
+                  <span className="text-xs w-20">
+                    {project.open_for_investment ? (
+                      <span className="text-[#0047FF] flex items-center gap-1"><DollarSign className="h-3 w-3" /> Invertir</span>
+                    ) : (
+                      <span className="text-gray-500 flex items-center gap-1"><EyeOff className="h-3 w-3" /> Cerrado</span>
+                    )}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Link
+                    to={`/admin/projects/${project.id}`}
+                    className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <Settings className="h-4 w-4" />
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(project.id, project.name)}
+                    className="p-2 rounded-lg hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
-              <span
-                className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                  project.is_public
-                    ? "bg-emerald-500/20 text-emerald-400"
-                    : "bg-gray-500/20 text-gray-400"
-                }`}
-              >
-                {project.is_public ? <Eye className="h-3 w-3 inline mr-1" /> : <EyeOff className="h-3 w-3 inline mr-1" />}
-                {project.is_public ? "Público" : "Oculto"}
-              </span>
-              <span
-                className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                  project.status === "active"
-                    ? "bg-green-500/20 text-green-400"
-                    : project.status === "completed"
-                    ? "bg-blue-500/20 text-blue-400"
-                    : "bg-amber-500/20 text-amber-400"
-                }`}
-              >
-                {project.status === "active" ? "Activo" : project.status === "completed" ? "Completado" : "Pausado"}
-              </span>
-              <div className="flex items-center gap-1">
-                <Link
-                  to={`/admin/projects/${project.id}`}
-                  className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-                >
-                  <Settings className="h-4 w-4" />
-                </Link>
-                <button
-                  onClick={() => handleDelete(project.id, project.name)}
-                  className="p-2 rounded-lg hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
           {filteredProjects?.length === 0 && (
             <p className="text-center text-gray-500 py-8">
               {visibility === "all" ? "No hay proyectos aún. Crea el primero." : "No hay proyectos en esta categoría."}

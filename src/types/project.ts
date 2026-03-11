@@ -13,6 +13,7 @@ export interface Project {
   current_phase: number;
   status: ProjectStatus;
   is_public: boolean;
+  open_for_investment: boolean;
   investment_type: InvestmentType;
   total_value: number;
   sqft: number | null;

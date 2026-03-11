@@ -25,7 +25,7 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
           alt={project.name}
           fallbackLetter={project.name.charAt(0)}
         />
-        {project.status === "active" && (
+        {project.open_for_investment && (
           <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white text-[9px] sm:text-xs font-extrabold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-xl shadow-orange-500/30 uppercase tracking-wide">
             🔥 ¡Invierte ahora!
           </div>
@@ -145,7 +145,7 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
             <p className="text-sm text-gray-300 leading-relaxed">{project.description}</p>
           )}
 
-          {project.status === "active" && (
+          {project.open_for_investment && (
             <div className="pt-2">
               <a
                 href={`https://wa.me/573124426783?text=${encodeURIComponent(`Hola, estuve en tu página web de OGF y deseo más información sobre la propiedad ${project.name}${project.location ? `, ${project.location}` : ""}.`)}`}
