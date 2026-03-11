@@ -83,6 +83,7 @@ export function usePublicProjects() {
         .select("*, project_phases(*), project_images(*)")
         .eq("is_public", true)
         .in("status", ["active", "completed"])
+        .order("open_for_investment", { ascending: false })
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -111,6 +112,7 @@ export function usePublicProjectsPaginated(filters: PublicProjectsFilters) {
         .select("*, project_phases(*), project_images(*)", { count: "exact" })
         .eq("is_public", true)
         .in("status", ["active", "completed"])
+        .order("open_for_investment", { ascending: false })
         .order("created_at", { ascending: false });
 
       // Server-side filters
