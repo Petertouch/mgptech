@@ -2,7 +2,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export interface ContactInfo {
-  full_name: string;
+  first_name: string;
+  last_name: string;
   company: string;
   title: string;
   phone: string;
@@ -21,7 +22,8 @@ export interface ContactInfo {
 }
 
 const defaultContact: ContactInfo = {
-  full_name: "",
+  first_name: "",
+  last_name: "",
   company: "",
   title: "",
   phone: "",
@@ -108,7 +110,8 @@ export function buildVCard(c: ContactInfo): string {
   const lines = [
     "BEGIN:VCARD",
     "VERSION:3.0",
-    `FN:${c.full_name}`,
+    `FN:${c.first_name} ${c.last_name}`.trim(),
+    `N:${c.last_name};${c.first_name};;;`,
     `ORG:${c.company}`,
     `TITLE:${c.title}`,
     `TEL;TYPE=CELL:${c.phone}`,

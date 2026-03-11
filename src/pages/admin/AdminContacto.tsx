@@ -60,7 +60,8 @@ export default function AdminContacto() {
 
   const vcard = buildVCard({
     ...watched,
-    full_name: watched.full_name || "",
+    first_name: watched.first_name || "",
+    last_name: watched.last_name || "",
     company: watched.company || "",
     title: watched.title || "",
     phone: watched.phone || "",
@@ -101,10 +102,14 @@ export default function AdminContacto() {
             <legend className="flex items-center gap-2 text-white font-semibold px-2">
               <User className="h-4 w-4 text-[#0047FF]" /> Información Personal
             </legend>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <Label className="text-gray-400">Nombre completo *</Label>
-                <Input {...register("full_name")} className="bg-white/5 border-white/10 text-white" />
+                <Label className="text-gray-400">Nombre *</Label>
+                <Input {...register("first_name")} className="bg-white/5 border-white/10 text-white" placeholder="Oscar" />
+              </div>
+              <div>
+                <Label className="text-gray-400">Apellido *</Label>
+                <Input {...register("last_name")} className="bg-white/5 border-white/10 text-white" placeholder="García" />
               </div>
               <div>
                 <Label className="text-gray-400">Cargo / Título</Label>
@@ -248,7 +253,7 @@ export default function AdminContacto() {
           <div className="bg-white/5 rounded-xl p-5 border border-white/10 space-y-3">
             <h3 className="text-white font-semibold text-sm mb-3">Así se verá el contacto guardado</h3>
             {([
-              { label: "Nombre", value: watched.full_name },
+              { label: "Nombre", value: [watched.first_name, watched.last_name].filter(Boolean).join(" ") },
               { label: "Cargo", value: watched.title },
               { label: "Empresa", value: watched.company },
               { label: "Teléfono", value: watched.phone },
@@ -268,7 +273,7 @@ export default function AdminContacto() {
                   <span className="text-white break-all">{f.value}</span>
                 </div>
               ))}
-            {!watched.full_name && (
+            {!watched.first_name && (
               <p className="text-gray-600 text-xs italic">Llena los campos para ver la vista previa.</p>
             )}
           </div>

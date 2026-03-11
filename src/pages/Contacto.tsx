@@ -8,7 +8,7 @@ const Contacto = () => {
   const { data: contact, isLoading } = useContactInfo();
 
   const vcard = contact ? buildVCard(contact) : "";
-  const hasData = contact && contact.full_name;
+  const hasData = contact && (contact.first_name || contact.last_name);
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,7 +57,7 @@ const Contacto = () => {
                 <div className="space-y-6">
                   <div>
                     <h2 className="text-2xl font-bold text-foreground">
-                      {contact.full_name}
+                      {`${contact.first_name} ${contact.last_name}`.trim()}
                     </h2>
                     {contact.title && (
                       <p className="text-primary font-medium mt-1">{contact.title}</p>
