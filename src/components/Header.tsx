@@ -60,8 +60,8 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
             <img src={logoIcon} alt="MGP Capital Group LLC" className="h-full w-full object-cover" />
           </div>
           <div className="leading-tight">
-            <span className="text-white font-bold text-xs sm:text-base tracking-wide">MGP CAPITAL</span>
-            <span className="block text-[8px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
+            <span className="text-white font-bold text-sm sm:text-[22px] tracking-wide">MGP CAPITAL</span>
+            <span className="block text-[11px] sm:text-sm text-gray-400 tracking-widest uppercase">Group LLC</span>
           </div>
         </Link>
 

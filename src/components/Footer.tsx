@@ -12,8 +12,8 @@ const Footer = () => {
           <div className="flex items-center gap-3">
             <img src={logoIcon} alt="MGP Capital Group LLC" className="h-28 w-28 sm:h-36 sm:w-36 rounded-full flex-shrink-0" />
             <div className="text-left">
-              <span className="text-white font-bold text-sm sm:text-base tracking-wide">MGP CAPITAL</span>
-              <span className="block text-[9px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
+              <span className="text-white font-bold text-lg sm:text-[22px] tracking-wide">MGP CAPITAL</span>
+              <span className="block text-[13px] sm:text-sm text-gray-400 tracking-widest uppercase">Group LLC</span>
             </div>
           </div>
 
