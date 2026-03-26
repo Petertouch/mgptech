@@ -26,9 +26,9 @@ const BlogPostPage = () => {
     <div className="min-h-screen bg-background">
       {post && (
         <BlogSEO
-          title={`${post.title} | Blog OGF Real Estate`}
+          title={`${post.title} | Blog MGP Capital Group`}
           description={post.meta_description}
-          canonical={`https://ofgrealstate.com/blog/${post.slug}`}
+          canonical={`https://grupomgp.com/blog/${post.slug}`}
           ogImage={post.cover_image || undefined}
           ogType="article"
           publishedTime={post.published_at || undefined}

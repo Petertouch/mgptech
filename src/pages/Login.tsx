@@ -42,7 +42,7 @@ const Login = () => {
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
           <a href="/">
-            <img src={logo} alt="OGF Real Estate" className="h-12 w-auto mx-auto mb-6" />
+            <img src={logo} alt="MGP Capital Group" className="h-12 w-auto mx-auto mb-6" />
           </a>
           <h1 className="text-2xl font-display text-foreground mb-2">Portal de Inversionistas</h1>
           <p className="text-sm text-muted-foreground">Ingresa con tus credenciales</p>

@@ -16,7 +16,7 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }: { project: P
   return (
     <div
       onClick={onClick}
-      className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300 cursor-pointer"
+      className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#D4AF37]/50 transition-all duration-300 cursor-pointer"
     >
       <div className="relative h-28 sm:h-36 overflow-hidden">
         <ImageCarousel
@@ -87,7 +87,7 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       <div
-        className="relative bg-[#0a0f2c] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+        className="relative bg-[#0B1F3A] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={onClose} className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors">
@@ -148,7 +148,7 @@ function ProjectModal({ project, onClose }: { project: ProjectWithPhases; onClos
           {project.open_for_investment && (
             <div className="pt-2">
               <a
-                href={`https://wa.me/573124426783?text=${encodeURIComponent(`Hola, estuve en tu página web de OGF y deseo más información sobre la propiedad ${project.name}${project.location ? `, ${project.location}` : ""}.`)}`}
+                href={`https://wa.me/13477405121?text=${encodeURIComponent(`Hola, estuve en tu página web de MGP Capital Group y deseo más información sobre la propiedad ${project.name}${project.location ? `, ${project.location}` : ""}.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1eba59] text-white px-5 py-2.5 rounded-full text-sm font-medium transition-colors"
@@ -215,7 +215,7 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
     { key: "completed", label: t.projects.completed },
   ];
 
-  const selectClass = "bg-white/5 border border-white/10 text-gray-400 text-xs sm:text-xs rounded-lg px-2 py-2 sm:px-2.5 sm:py-1.5 outline-none focus:border-[#0047FF]/50 transition-colors appearance-none cursor-pointer min-h-[36px] sm:min-h-0";
+  const selectClass = "bg-white/5 border border-white/10 text-gray-400 text-xs sm:text-xs rounded-lg px-2 py-2 sm:px-2.5 sm:py-1.5 outline-none focus:border-[#D4AF37]/50 transition-colors appearance-none cursor-pointer min-h-[36px] sm:min-h-0";
 
   return (
     <section id="proyectos" className="bg-[#060a1f] pb-16 sm:pb-20 min-h-screen">
@@ -224,11 +224,11 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
         <div className="container mx-auto px-3 sm:px-6 py-3 sm:py-4">
           <div className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 transition-all duration-300 ${isSticky ? "sm:justify-center" : "sm:justify-center sm:flex-col sm:items-center"}`}>
             <h2 className={`font-bold text-white whitespace-nowrap transition-all duration-300 ${isSticky ? "hidden" : "text-xl sm:text-3xl md:text-4xl sm:mb-2 text-center"}`}>
-              {t.projects.title} <span className="text-[#0047FF]">{t.projects.titleAccent}</span>
+              {t.projects.title} <span className="text-[#D4AF37]">{t.projects.titleAccent}</span>
             </h2>
             <div className={`flex flex-wrap items-center gap-1.5 sm:gap-2 transition-all duration-300 ${isSticky ? "justify-center" : "justify-center"}`}>
               {statusFilters.map((f) => (
-                <button key={f.key} onClick={() => setFilter(f.key)} className={`px-3 py-1.5 sm:py-1 rounded-full text-xs font-medium transition-all duration-300 ${filter === f.key ? "bg-[#0047FF] text-white shadow-lg shadow-[#0047FF]/25" : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"}`}>
+                <button key={f.key} onClick={() => setFilter(f.key)} className={`px-3 py-1.5 sm:py-1 rounded-full text-xs font-medium transition-all duration-300 ${filter === f.key ? "bg-[#D4AF37] text-white shadow-lg shadow-[#D4AF37]/25" : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"}`}>
                   {f.label}
                 </button>
               ))}
@@ -261,7 +261,7 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
 
       <div className="container mx-auto px-3 sm:px-6 pt-6 sm:pt-8">
         {isLoading ? (
-          <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 text-[#0047FF] animate-spin" /></div>
+          <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 text-[#D4AF37] animate-spin" /></div>
         ) : allProjects.length === 0 ? (
           <p className="text-center text-gray-500 py-12">{t.projects.noProjects}</p>
         ) : (
@@ -280,7 +280,7 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
           </div>
         )}
 
-        {isFetchingNextPage && <div className="flex justify-center py-6"><Loader2 className="h-5 w-5 text-[#0047FF] animate-spin" /></div>}
+        {isFetchingNextPage && <div className="flex justify-center py-6"><Loader2 className="h-5 w-5 text-[#D4AF37] animate-spin" /></div>}
 
         <div ref={loadMoreRef} className="h-1" />
 
@@ -289,7 +289,7 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
         )}
 
         <div className="text-center mt-6 sm:mt-8">
-          <Link to="/login" className="inline-flex items-center gap-2 text-[#0047FF] hover:underline text-xs sm:text-sm font-medium">
+          <Link to="/login" className="inline-flex items-center gap-2 text-[#D4AF37] hover:underline text-xs sm:text-sm font-medium">
             {t.projects.portalCta}
           </Link>
         </div>

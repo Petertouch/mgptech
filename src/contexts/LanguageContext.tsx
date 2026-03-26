@@ -14,7 +14,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLang = (l: Lang) => {
     setLangState(l);
-    localStorage.setItem("ogf-lang", l);
+    localStorage.setItem("mgp-lang", l);
   };
 
   return (

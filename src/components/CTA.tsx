@@ -1,6 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const WHATSAPP_LINK = "https://wa.me/573124426783?text=Hola%2C%20estuve%20en%20tu%20p%C3%A1gina%20web%20de%20OGF%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n.";
+const WHATSAPP_LINK = "https://wa.me/13477405121?text=Hola%2C%20estuve%20en%20tu%20p%C3%A1gina%20web%20de%20MGP%20Capital%20Group%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n.";
 
 const CTA = () => {
   const { t } = useLanguage();
@@ -24,7 +24,7 @@ const CTA = () => {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Contact OGF Real Estate via WhatsApp"
+            aria-label="Contact MGP Capital Group via WhatsApp"
             className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1eba59] text-white px-7 py-4 sm:px-10 sm:py-5 rounded-full font-semibold text-base sm:text-lg transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-[#25D366]/20 hover:shadow-xl hover:shadow-[#25D366]/30"
           >
             <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

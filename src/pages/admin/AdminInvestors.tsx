@@ -51,7 +51,7 @@ export default function AdminInvestors() {
           <h1 className="text-2xl font-bold text-white">Inversionistas</h1>
           <p className="text-gray-400 mt-1">Gestiona las cuentas de inversionistas</p>
         </div>
-        <Button onClick={() => { setShowForm(!showForm); setEditingId(null); }} className="bg-[#0047FF] hover:bg-[#0035cc]">
+        <Button onClick={() => { setShowForm(!showForm); setEditingId(null); }} className="bg-[#D4AF37] hover:bg-[#A88C2C]">
           <Plus className="h-4 w-4 mr-2" /> Nuevo Inversionista
         </Button>
       </div>
@@ -70,15 +70,15 @@ export default function AdminInvestors() {
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+          <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
         </div>
       ) : (
         <div className="space-y-3">
           {investors?.map((investor) => (
             <div key={investor.id}>
               <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-                <div className="w-10 h-10 rounded-full bg-[#0047FF]/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-sm font-bold text-[#0047FF]">
+                <div className="w-10 h-10 rounded-full bg-[#D4AF37]/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-bold text-[#D4AF37]">
                     {investor.full_name.charAt(0).toUpperCase()}
                   </span>
                 </div>

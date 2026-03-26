@@ -32,9 +32,9 @@ const BlogSEO = ({
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={ogType} />
-    <meta property="og:image" content={ogImage || "https://ofgrealstate.com/og-image.png"} />
+    <meta property="og:image" content={ogImage || "https://grupomgp.com/og-image.png"} />
     <meta property="og:locale" content="es_ES" />
-    <meta property="og:site_name" content="OGF Real Estate Group LLC" />
+    <meta property="og:site_name" content="MGP Capital Group LLC" />
 
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
@@ -45,7 +45,7 @@ const BlogSEO = ({
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage || "https://ofgrealstate.com/og-image.png"} />
+    <meta name="twitter:image" content={ogImage || "https://grupomgp.com/og-image.png"} />
 
     {jsonLd.map((schema, i) => (
       <script key={i} type="application/ld+json">

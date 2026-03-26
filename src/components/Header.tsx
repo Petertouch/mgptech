@@ -55,12 +55,12 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
   return (
     <header style={mobileMenuOpen ? { backgroundColor: "#030712" } : undefined} className={`fixed top-0 left-0 right-0 z-50 ${mobileMenuOpen ? "" : "bg-background/70 backdrop-blur-xl"} border-b border-white/5 transition-all duration-300 ${hidden ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"}`} role="banner">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2" aria-label="OGF Real Estate">
+        <Link to="/" className="flex items-center gap-2" aria-label="MGP Capital Group">
           <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full overflow-hidden flex-shrink-0">
-            <img src={logoIcon} alt="OGF Real Estate Group LLC" className="h-full w-full object-cover" />
+            <img src={logoIcon} alt="MGP Capital Group LLC" className="h-full w-full object-cover" />
           </div>
           <div className="leading-tight">
-            <span className="text-white font-bold text-xs sm:text-base tracking-wide">OGF REAL ESTATE</span>
+            <span className="text-white font-bold text-xs sm:text-base tracking-wide">MGP CAPITAL</span>
             <span className="block text-[8px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
           </div>
         </Link>
@@ -92,10 +92,10 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/5 border border-white/10 hover:border-[#0047FF]/50 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-full bg-[#0047FF]/20 flex items-center justify-center">
-                    <User className="h-3.5 w-3.5 text-[#0047FF]" />
+                  <div className="w-7 h-7 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
+                    <User className="h-3.5 w-3.5 text-[#D4AF37]" />
                   </div>
                   <span className="text-sm text-white hidden sm:inline">
                     {profile?.full_name?.split(" ")[0]}
@@ -103,7 +103,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
                 </button>
 
                 {menuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[#0a0f2c] border border-white/10 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
+                  <div className="absolute right-0 mt-2 w-48 bg-[#0B1F3A] border border-white/10 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
                     {isInvestor && (
                       <Link
                         to="/dashboard"
@@ -134,7 +134,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:flex bg-[#0047FF] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#0035cc] transition-all duration-300 hover:shadow-lg hover:shadow-[#0047FF]/25 items-center gap-2"
+                className="hidden sm:flex bg-[#D4AF37] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#A88C2C] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/25 items-center gap-2"
               >
                 {t.nav.portal}
               </Link>
@@ -186,7 +186,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 bg-[#0047FF] text-white w-full py-4 rounded-xl font-semibold text-base hover:bg-[#0035cc] transition-colors"
+                  className="flex items-center justify-center gap-2 bg-[#D4AF37] text-white w-full py-4 rounded-xl font-semibold text-base hover:bg-[#A88C2C] transition-colors"
                 >
                   {t.nav.portal}
                 </Link>

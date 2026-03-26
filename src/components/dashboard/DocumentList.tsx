@@ -43,7 +43,7 @@ export default function DocumentList({ documents }: DocumentListProps) {
           <button
             key={doc.id}
             onClick={() => handleDownload(doc)}
-            className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-[#0047FF]/50 transition-colors text-left group"
+            className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 transition-colors text-left group"
           >
             <div className={`p-2 rounded-lg ${config.color}`}>
               <Icon className="h-4 w-4" />
@@ -54,7 +54,7 @@ export default function DocumentList({ documents }: DocumentListProps) {
                 {config.label} · {new Date(doc.uploaded_at).toLocaleDateString("es-CO")}
               </p>
             </div>
-            <Download className="h-4 w-4 text-gray-500 group-hover:text-[#0047FF] transition-colors" />
+            <Download className="h-4 w-4 text-gray-500 group-hover:text-[#D4AF37] transition-colors" />
           </button>
         );
       })}

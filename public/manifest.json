@@ -1,11 +1,11 @@
 {
-  "name": "OGF Real Estate Group LLC",
-  "short_name": "OGF Real Estate",
+  "name": "MGP Capital Group LLC",
+  "short_name": "MGP Capital Group",
   "description": "Construcción nueva y house flipping en Ohio, Georgia y Florida",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a1628",
-  "theme_color": "#0a1628",
+  "background_color": "#0B1F3A",
+  "theme_color": "#0B1F3A",
   "lang": "es",
   "icons": [
     {

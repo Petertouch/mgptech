@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["DM Serif Display", "serif"],
-        body: ["Inter", "sans-serif"],
+        display: ["Playfair Display", "serif"],
+        body: ["Montserrat", "sans-serif"],
       },
       fontSize: {
         "xs": ["0.8rem", { lineHeight: "1.4" }],
@@ -68,12 +68,13 @@ export default {
           DEFAULT: "hsl(var(--navy))",
           light: "hsl(var(--navy-light))",
         },
-        "electric-blue": {
-          DEFAULT: "hsl(var(--electric-blue))",
-          glow: "hsl(var(--electric-blue-glow))",
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          dark: "hsl(var(--gold-dark))",
+          glow: "hsl(var(--gold-glow))",
         },
         silver: "hsl(var(--silver))",
-        gold: "hsl(var(--gold))",
+        black: "hsl(var(--black))",
       },
       borderRadius: {
         lg: "var(--radius)",

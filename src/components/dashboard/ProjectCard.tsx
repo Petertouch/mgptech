@@ -21,7 +21,7 @@ export default function ProjectCard({ project, investedAmount, investmentDate }:
   return (
     <Link
       to={`/dashboard/project/${project.id}`}
-      className="group bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#0047FF]/50 transition-all duration-300"
+      className="group bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-[#D4AF37]/50 transition-all duration-300"
     >
       <div className="relative h-48 overflow-hidden">
         {project.cover_image ? (
@@ -31,7 +31,7 @@ export default function ProjectCard({ project, investedAmount, investmentDate }:
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[#0047FF]/20 to-[#0a0f2c] flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-[#D4AF37]/20 to-[#0B1F3A] flex items-center justify-center">
             <span className="text-4xl font-bold text-white/20">{project.name.charAt(0)}</span>
           </div>
         )}
@@ -41,7 +41,7 @@ export default function ProjectCard({ project, investedAmount, investmentDate }:
       </div>
 
       <div className="p-5 space-y-3">
-        <h3 className="text-lg font-semibold text-white group-hover:text-[#0047FF] transition-colors">
+        <h3 className="text-lg font-semibold text-white group-hover:text-[#D4AF37] transition-colors">
           {project.name}
         </h3>
 
@@ -72,7 +72,7 @@ export default function ProjectCard({ project, investedAmount, investmentDate }:
               const phase = project.project_phases?.find((p) => p.phase_number === n);
               let bg = "bg-white/10";
               if (phase?.status === "completed") bg = "bg-green-500";
-              else if (phase?.status === "in_progress") bg = "bg-[#0047FF] animate-pulse";
+              else if (phase?.status === "in_progress") bg = "bg-[#D4AF37] animate-pulse";
               return <div key={n} className={`h-1.5 flex-1 rounded-full ${bg}`} />;
             })}
           </div>

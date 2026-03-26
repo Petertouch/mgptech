@@ -1,7 +1,7 @@
 import type { BlogPost } from "@/types/blog";
 
-const SITE_URL = "https://ofgrealstate.com";
-const SITE_NAME = "OGF Real Estate Group LLC";
+const SITE_URL = "https://grupomgp.com";
+const SITE_NAME = "MGP Capital Group LLC";
 
 export function blogPostingSchema(post: BlogPost) {
   return {

@@ -98,7 +98,7 @@ export default function InvestorAssigner({ projectId, currentInvestors }: Invest
         <Button
           onClick={handleAssign}
           disabled={!selectedInvestor || !amount || loading}
-          className="bg-[#0047FF] hover:bg-[#0035cc]"
+          className="bg-[#D4AF37] hover:bg-[#A88C2C]"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
           Asignar

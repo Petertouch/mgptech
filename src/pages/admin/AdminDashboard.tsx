@@ -58,7 +58,7 @@ export default function AdminDashboard() {
           <Link
             key={card.label}
             to={card.link}
-            className="bg-white/5 border border-white/10 rounded-xl p-5 flex items-center gap-4 hover:border-[#0047FF]/50 transition-colors"
+            className="bg-white/5 border border-white/10 rounded-xl p-5 flex items-center gap-4 hover:border-[#D4AF37]/50 transition-colors"
           >
             <div className={`p-3 rounded-lg ${card.color}`}>
               <card.icon className="h-6 w-6" />
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
               <Link
                 key={project.id}
                 to={`/admin/projects/${project.id}`}
-                className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10 hover:border-[#0047FF]/50 transition-colors"
+                className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 transition-colors"
               >
                 <div>
                   <p className="text-sm font-medium text-white">{project.name}</p>

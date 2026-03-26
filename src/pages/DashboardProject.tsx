@@ -15,15 +15,15 @@ export default function DashboardProject() {
 
   if (loadingProject) {
     return (
-      <div className="min-h-screen bg-[#0a0f2c] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+      <div className="min-h-screen bg-[#0B1F3A] flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
       </div>
     );
   }
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#0a0f2c] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0B1F3A] flex items-center justify-center">
         <p className="text-gray-400">Proyecto no encontrado.</p>
       </div>
     );
@@ -32,7 +32,7 @@ export default function DashboardProject() {
   const phases = (project.project_phases ?? []) as PhaseWithPhotos[];
 
   return (
-    <div className="min-h-screen bg-[#0a0f2c]">
+    <div className="min-h-screen bg-[#0B1F3A]">
       {/* Header with cover */}
       <div className="relative">
         {project.cover_image ? (
@@ -42,10 +42,10 @@ export default function DashboardProject() {
               alt={project.name}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f2c] via-[#0a0f2c]/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A] via-[#0B1F3A]/60 to-transparent" />
           </div>
         ) : (
-          <div className="h-40 bg-gradient-to-br from-[#0047FF]/20 to-[#0a0f2c]" />
+          <div className="h-40 bg-gradient-to-br from-[#D4AF37]/20 to-[#0B1F3A]" />
         )}
 
         <div className="absolute top-4 left-4">

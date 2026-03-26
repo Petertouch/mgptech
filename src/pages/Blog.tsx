@@ -21,9 +21,9 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
       <BlogSEO
-        title="Blog | OGF Real Estate Group - Inversión Inmobiliaria"
+        title="Blog | MGP Capital Group - Inversión Inmobiliaria"
         description="Artículos sobre inversión inmobiliaria, house flipping, construcción nueva y tendencias del mercado en Ohio, Georgia y Florida."
-        canonical="https://ofgrealstate.com/blog"
+        canonical="https://grupomgp.com/blog"
         jsonLd={[blogSchema(), blogBreadcrumbSchema()]}
       />
       <Header />

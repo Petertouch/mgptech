@@ -56,7 +56,7 @@ export default function AdminProjects() {
           <h1 className="text-2xl font-bold text-white">Proyectos</h1>
           <p className="text-gray-400 mt-1">Gestiona los proyectos de inversión</p>
         </div>
-        <Button onClick={() => setShowForm(!showForm)} className="bg-[#0047FF] hover:bg-[#0035cc]">
+        <Button onClick={() => setShowForm(!showForm)} className="bg-[#D4AF37] hover:bg-[#A88C2C]">
           <Plus className="h-4 w-4 mr-2" /> Nuevo Proyecto
         </Button>
       </div>
@@ -68,7 +68,7 @@ export default function AdminProjects() {
           placeholder="Buscar por nombre o ubicación..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 outline-none focus:border-[#0047FF]/50 transition-colors"
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 outline-none focus:border-[#D4AF37]/50 transition-colors"
         />
       </div>
 
@@ -83,7 +83,7 @@ export default function AdminProjects() {
             onClick={() => setVisibility(f.key)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               visibility === f.key
-                ? "bg-[#0047FF] text-white"
+                ? "bg-[#D4AF37] text-white"
                 : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
             }`}
           >
@@ -105,7 +105,7 @@ export default function AdminProjects() {
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+          <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
         </div>
       ) : (
         <div className="space-y-3">
@@ -128,8 +128,8 @@ export default function AdminProjects() {
                     className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-lg bg-[#0047FF]/10 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl font-bold text-[#0047FF]">{project.name.charAt(0)}</span>
+                  <div className="w-16 h-16 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-bold text-[#D4AF37]">{project.name.charAt(0)}</span>
                   </div>
                 )}
                 <div className="flex-1 min-w-0">

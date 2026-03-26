@@ -82,7 +82,7 @@ export default function AdminContacto() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0047FF]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4AF37]" />
       </div>
     );
   }
@@ -90,7 +90,7 @@ export default function AdminContacto() {
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
-        <QrCode className="h-6 w-6 text-[#0047FF]" />
+        <QrCode className="h-6 w-6 text-[#D4AF37]" />
         <h1 className="text-2xl font-bold text-white">Contacto QR</h1>
       </div>
 
@@ -100,7 +100,7 @@ export default function AdminContacto() {
           {/* Personal */}
           <fieldset className="bg-white/5 rounded-xl p-5 space-y-4 border border-white/10">
             <legend className="flex items-center gap-2 text-white font-semibold px-2">
-              <User className="h-4 w-4 text-[#0047FF]" /> Información Personal
+              <User className="h-4 w-4 text-[#D4AF37]" /> Información Personal
             </legend>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
@@ -140,7 +140,7 @@ export default function AdminContacto() {
           {/* Contact */}
           <fieldset className="bg-white/5 rounded-xl p-5 space-y-4 border border-white/10">
             <legend className="flex items-center gap-2 text-white font-semibold px-2">
-              <Phone className="h-4 w-4 text-[#0047FF]" /> Contacto
+              <Phone className="h-4 w-4 text-[#D4AF37]" /> Contacto
             </legend>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -167,7 +167,7 @@ export default function AdminContacto() {
           {/* Address */}
           <fieldset className="bg-white/5 rounded-xl p-5 space-y-4 border border-white/10">
             <legend className="flex items-center gap-2 text-white font-semibold px-2">
-              <MapPin className="h-4 w-4 text-[#0047FF]" /> Dirección
+              <MapPin className="h-4 w-4 text-[#D4AF37]" /> Dirección
             </legend>
             <div>
               <Label className="text-gray-400">Dirección</Label>
@@ -196,7 +196,7 @@ export default function AdminContacto() {
           {/* Social */}
           <fieldset className="bg-white/5 rounded-xl p-5 space-y-4 border border-white/10">
             <legend className="flex items-center gap-2 text-white font-semibold px-2">
-              <Globe className="h-4 w-4 text-[#0047FF]" /> Redes Sociales
+              <Globe className="h-4 w-4 text-[#D4AF37]" /> Redes Sociales
             </legend>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
@@ -217,7 +217,7 @@ export default function AdminContacto() {
           <Button
             type="submit"
             disabled={saveMutation.isPending}
-            className="bg-[#0047FF] hover:bg-[#0035cc] text-white px-8 py-3"
+            className="bg-[#D4AF37] hover:bg-[#A88C2C] text-white px-8 py-3"
           >
             <Save className="h-4 w-4 mr-2" />
             {saveMutation.isPending ? "Guardando..." : "Guardar Contacto"}
@@ -242,7 +242,7 @@ export default function AdminContacto() {
               />
             </div>
             <p className="text-gray-400 text-xs mt-4">
-              Este QR se mostrará en <span className="text-[#0047FF]">/contacto</span>
+              Este QR se mostrará en <span className="text-[#D4AF37]">/contacto</span>
             </p>
             <p className="text-gray-500 text-xs mt-1">
               Al escanearlo, el celular creará un contacto con estos datos.

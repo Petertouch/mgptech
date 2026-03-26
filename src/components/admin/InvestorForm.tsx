@@ -73,7 +73,7 @@ export default function InvestorForm({ initialData, onSubmit, isEdit }: Investor
           />
         </div>
       )}
-      <Button type="submit" disabled={loading} className="bg-[#0047FF] hover:bg-[#0035cc]">
+      <Button type="submit" disabled={loading} className="bg-[#D4AF37] hover:bg-[#A88C2C]">
         {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
         {isEdit ? "Actualizar" : "Crear Inversionista"}
       </Button>

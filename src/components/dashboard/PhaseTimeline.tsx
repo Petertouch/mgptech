@@ -6,7 +6,7 @@ const phaseIcons = [Key, FileCheck, Hammer, Paintbrush, Home];
 
 const statusColors: Record<string, { dot: string; line: string; text: string }> = {
   completed: { dot: "bg-green-500 border-green-400", line: "bg-green-500", text: "text-green-400" },
-  in_progress: { dot: "bg-[#0047FF] border-blue-400 animate-pulse", line: "bg-[#0047FF]", text: "text-[#0047FF]" },
+  in_progress: { dot: "bg-[#D4AF37] border-blue-400 animate-pulse", line: "bg-[#D4AF37]", text: "text-[#D4AF37]" },
   pending: { dot: "bg-white/10 border-white/20", line: "bg-white/10", text: "text-gray-500" },
 };
 
@@ -74,7 +74,7 @@ export default function PhaseTimeline({ phases }: PhaseTimelineProps) {
                     href={phase.report_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-[#0047FF] hover:underline"
+                    className="inline-flex items-center gap-2 text-sm text-[#D4AF37] hover:underline"
                   >
                     <FileText className="h-4 w-4" /> Ver reporte de fase
                   </a>

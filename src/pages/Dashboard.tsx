@@ -9,13 +9,13 @@ export default function Dashboard() {
   const { data: investments, isLoading } = useInvestorProjects(user?.id);
 
   return (
-    <div className="min-h-screen bg-[#0a0f2c]">
+    <div className="min-h-screen bg-[#0B1F3A]">
       {/* Top bar */}
-      <header className="border-b border-white/10 bg-[#0a0f2c]/80 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-white/10 bg-[#0B1F3A]/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-white">
-              OGF <span className="text-[#0047FF]">Real Estate</span>
+              MGP <span className="text-[#D4AF37]">Capital Group</span>
             </h1>
             <p className="text-sm text-gray-400">Portal de Inversionistas</p>
           </div>
@@ -45,7 +45,7 @@ export default function Dashboard() {
 
         {isLoading ? (
           <div className="flex justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
           </div>
         ) : investments && investments.length > 0 ? (
           <>

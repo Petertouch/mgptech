@@ -27,7 +27,7 @@ export default function AdminBlog() {
           <p className="text-gray-400 mt-1">Gestiona los artículos del blog</p>
         </div>
         <Link to="/admin/blog/new">
-          <Button className="bg-[#0047FF] hover:bg-[#0035cc]">
+          <Button className="bg-[#D4AF37] hover:bg-[#A88C2C]">
             <Plus className="h-4 w-4 mr-2" /> Nuevo Artículo
           </Button>
         </Link>
@@ -35,7 +35,7 @@ export default function AdminBlog() {
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+          <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
         </div>
       ) : (
         <div className="space-y-3">

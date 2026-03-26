@@ -16,7 +16,7 @@ export default function AdminBlogEdit() {
   if (!isNew && isLoading) {
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
       </div>
     );
   }

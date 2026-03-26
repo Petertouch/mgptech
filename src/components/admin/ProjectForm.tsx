@@ -136,7 +136,7 @@ export default function ProjectForm({ initialData, onSubmit, submitLabel = "Guar
               </button>
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center h-32 rounded-lg border-2 border-dashed border-white/10 bg-white/5 cursor-pointer hover:border-[#0047FF]/50 transition-colors">
+            <label className="flex flex-col items-center justify-center h-32 rounded-lg border-2 border-dashed border-white/10 bg-white/5 cursor-pointer hover:border-[#D4AF37]/50 transition-colors">
               <input
                 type="file"
                 accept="image/*"
@@ -147,7 +147,7 @@ export default function ProjectForm({ initialData, onSubmit, submitLabel = "Guar
                 }}
               />
               {uploading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-[#0047FF]" />
+                <Loader2 className="h-6 w-6 animate-spin text-[#D4AF37]" />
               ) : (
                 <>
                   <Upload className="h-6 w-6 text-gray-500 mb-1" />
@@ -247,7 +247,7 @@ export default function ProjectForm({ initialData, onSubmit, submitLabel = "Guar
         </label>
       </div>
 
-      <Button type="submit" disabled={loading} className="bg-[#0047FF] hover:bg-[#0035cc]">
+      <Button type="submit" disabled={loading} className="bg-[#D4AF37] hover:bg-[#A88C2C]">
         {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
         {submitLabel}
       </Button>

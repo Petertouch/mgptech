@@ -5,12 +5,12 @@ const Hero = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="sticky top-0 z-0 min-h-[55svh] sm:min-h-[70svh] flex items-center overflow-hidden" aria-label="OGF Real Estate">
+    <section className="sticky top-0 z-0 min-h-[55svh] sm:min-h-[70svh] flex items-center overflow-hidden" aria-label="MGP Capital Group">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0" aria-hidden="true">
         <img
           src={heroImage}
-          alt="Modern house project completed by OGF Real Estate in Florida"
+          alt="Modern house project completed by MGP Capital Group in Florida"
           className="w-full h-full object-cover scale-105"
           loading="eager"
           fetchPriority="high"

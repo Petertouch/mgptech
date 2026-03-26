@@ -28,7 +28,7 @@ export default function AdminProjectEdit() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#0047FF]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
       </div>
     );
   }
@@ -69,7 +69,7 @@ export default function AdminProjectEdit() {
             onClick={() => setActiveTab(tab.id)}
             className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
               activeTab === tab.id
-                ? "text-[#0047FF] border-[#0047FF]"
+                ? "text-[#D4AF37] border-[#D4AF37]"
                 : "text-gray-400 border-transparent hover:text-white"
             }`}
           >

@@ -23,7 +23,7 @@ export default function ImageCarousel({ images, coverImage, alt, fallbackLetter 
 
   if (allImages.length === 0) {
     return (
-      <div className="w-full h-full bg-gradient-to-br from-[#0047FF]/20 to-[#0a0f2c] flex items-center justify-center">
+      <div className="w-full h-full bg-gradient-to-br from-[#D4AF37]/20 to-[#0B1F3A] flex items-center justify-center">
         <span className="text-4xl font-bold text-white/20">{fallbackLetter}</span>
       </div>
     );

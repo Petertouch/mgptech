@@ -59,7 +59,7 @@ export default function ImageGalleryManager({ images, projectId }: ImageGalleryM
             className="hidden"
             onChange={(e) => handleUpload(e.target.files)}
           />
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0047FF] hover:bg-[#0035cc] text-white text-sm font-medium transition-colors cursor-pointer">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#D4AF37] hover:bg-[#A88C2C] text-white text-sm font-medium transition-colors cursor-pointer">
             {uploading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

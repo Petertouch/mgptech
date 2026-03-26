@@ -104,7 +104,7 @@ export default function DocumentUploader({ documents, projectId }: DocumentUploa
           <Button
             onClick={handleUpload}
             disabled={!file || !docName || uploading}
-            className="bg-[#0047FF] hover:bg-[#0035cc]"
+            className="bg-[#D4AF37] hover:bg-[#A88C2C]"
           >
             {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Subir"}
           </Button>

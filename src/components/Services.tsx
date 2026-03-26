@@ -9,14 +9,14 @@ const Services = () => {
       title: t.services.flippingTitle,
       description: t.services.flippingDesc,
       image: "/flipping.png",
-      imageAlt: "House flipping project - Renovated house by OGF Real Estate",
+      imageAlt: "House flipping project - Renovated house by MGP Capital Group",
       features: t.services.flippingFeatures,
     },
     {
       title: t.services.constructionTitle,
       description: t.services.constructionDesc,
       image: "/construction.png",
-      imageAlt: "New construction - Modern house built by OGF Real Estate",
+      imageAlt: "New construction - Modern house built by MGP Capital Group",
       features: t.services.constructionFeatures,
     },
   ];

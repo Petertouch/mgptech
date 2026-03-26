@@ -17,7 +17,7 @@ export default function AdminSidebar() {
     <aside className="w-64 bg-[#060a1f] border-r border-white/10 flex flex-col min-h-screen">
       <div className="p-6 border-b border-white/10">
         <h1 className="text-lg font-bold text-white">
-          OGF <span className="text-[#0047FF]">Admin</span>
+          MGP <span className="text-[#D4AF37]">Admin</span>
         </h1>
         <p className="text-xs text-gray-500 mt-1">{profile?.full_name}</p>
       </div>
@@ -31,7 +31,7 @@ export default function AdminSidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                 isActive
-                  ? "bg-[#0047FF]/10 text-[#0047FF] font-medium"
+                  ? "bg-[#D4AF37]/10 text-[#D4AF37] font-medium"
                   : "text-gray-400 hover:text-white hover:bg-white/5"
               }`
             }

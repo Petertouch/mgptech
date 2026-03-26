@@ -98,7 +98,7 @@ const About = () => {
 
             <div className="max-w-2xl mx-auto card-gradient rounded-2xl border-2 border-primary/30 p-8 sm:p-10 text-center opacity-0 animate-fade-in-up animation-delay-600">
               <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary/10 flex items-center justify-center"><Shield className="w-8 h-8 text-primary" /></div>
-              <h3 className="text-2xl sm:text-3xl font-display text-white mb-3">OGF Real Estate Group LLC</h3>
+              <h3 className="text-2xl sm:text-3xl font-display text-white mb-3">MGP Capital Group LLC</h3>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 {t.about.ogfDesc1} <strong className="text-white">{t.about.ogfFixFlip}</strong> {t.about.ogfAnd}{" "}
                 <strong className="text-white">{t.about.ogfNewConst}</strong> {t.about.ogfDesc2}

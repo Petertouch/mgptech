@@ -129,7 +129,7 @@ export default function PhaseManager({ phases, projectId }: PhaseManagerProps) {
                   className="hidden"
                   onChange={(e) => handlePhotoUpload(phase.id, e.target.files)}
                 />
-                <span className="inline-flex items-center gap-1 text-xs text-[#0047FF] hover:underline">
+                <span className="inline-flex items-center gap-1 text-xs text-[#D4AF37] hover:underline">
                   {uploadingPhase === phase.id ? (
                     <Loader2 className="h-3 w-3 animate-spin" />
                   ) : (
