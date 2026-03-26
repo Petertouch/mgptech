@@ -1,7 +1,16 @@
 -- ============================================
--- OGF Real Estate: Plataforma de Inversionistas
+-- MGP Capital Group: Plataforma de Inversionistas
 -- Ejecutar en Supabase SQL Editor
 -- ============================================
+
+-- 0. HELPER FUNCTION (updated_at trigger)
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
 -- 1. PROFILES
 CREATE TABLE IF NOT EXISTS profiles (
@@ -100,10 +109,31 @@ CREATE TABLE IF NOT EXISTS project_documents (
 );
 CREATE INDEX IF NOT EXISTS idx_docs_project ON project_documents(project_id);
 
+-- 8. BLOG_POSTS
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  content TEXT NOT NULL DEFAULT '',
+  excerpt TEXT DEFAULT '',
+  cover_image TEXT,
+  meta_description TEXT DEFAULT '',
+  author TEXT NOT NULL DEFAULT 'MGP Capital Group',
+  published_at TIMESTAMPTZ,
+  is_published BOOLEAN NOT NULL DEFAULT false,
+  tags TEXT[] DEFAULT '{}',
+  reading_time INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
+CREATE INDEX IF NOT EXISTS idx_blog_published ON blog_posts(is_published);
+
 -- TRIGGERS
 CREATE TRIGGER profiles_updated BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER projects_updated BEFORE UPDATE ON projects FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER phases_updated BEFORE UPDATE ON project_phases FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER blog_updated BEFORE UPDATE ON blog_posts FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Auto-create profile on auth user creation
 CREATE OR REPLACE FUNCTION handle_new_user_profile()
@@ -151,6 +181,7 @@ ALTER TABLE project_phases ENABLE ROW LEVEL SECURITY;
 ALTER TABLE phase_photos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 
 -- Helper functions
 CREATE OR REPLACE FUNCTION is_admin()
@@ -198,6 +229,10 @@ CREATE POLICY "Admins full project images" ON project_images FOR ALL USING (is_a
 -- PROJECT_DOCUMENTS policies
 CREATE POLICY "Investors read docs" ON project_documents FOR SELECT USING (is_investor_of_project(project_id) AND (investor_id IS NULL OR investor_id = auth.uid()));
 CREATE POLICY "Admins full docs" ON project_documents FOR ALL USING (is_admin()) WITH CHECK (is_admin());
+
+-- BLOG_POSTS policies
+CREATE POLICY "Published blogs public" ON blog_posts FOR SELECT USING (is_published = true);
+CREATE POLICY "Admins full blog" ON blog_posts FOR ALL USING (is_admin()) WITH CHECK (is_admin());
 
 -- STORAGE BUCKETS
 INSERT INTO storage.buckets (id, name, public) VALUES ('project-photos', 'project-photos', true) ON CONFLICT DO NOTHING;
