@@ -56,7 +56,7 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
     <header style={mobileMenuOpen ? { backgroundColor: "#030712" } : undefined} className={`fixed top-0 left-0 right-0 z-50 ${mobileMenuOpen ? "" : "bg-background/70 backdrop-blur-xl"} border-b border-white/5 transition-all duration-300 ${hidden ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"}`} role="banner">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2" aria-label="MGP Capital Group">
-          <div className="h-12 w-12 sm:h-[60px] sm:w-[60px] rounded-full overflow-hidden flex-shrink-0">
+          <div className="h-[72px] w-[72px] sm:h-[90px] sm:w-[90px] rounded-full overflow-hidden flex-shrink-0">
             <img src={logoIcon} alt="MGP Capital Group LLC" className="h-full w-full object-cover" />
           </div>
           <div className="leading-tight">
