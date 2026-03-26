@@ -18,7 +18,6 @@ const About = () => {
     { name: "Daniel Londoño", role: t.about.danielRole, photo: "https://bgapniabglowonophvaz.supabase.co/storage/v1/object/public/project-photos/team/daniel-londono.webp", description: t.about.danielDesc },
     { name: "Pedro Tobar", role: t.about.pedroRole, photo: "https://bgapniabglowonophvaz.supabase.co/storage/v1/object/public/project-photos/team/pedro-tobar.webp", description: t.about.pedroDesc },
     { name: "Gloria Rodríguez", role: t.about.gloriaRole, photo: "https://bgapniabglowonophvaz.supabase.co/storage/v1/object/public/project-photos/team/gloria-rodriguez.webp", description: t.about.gloriaDesc },
-    { name: "Carlos Guerrero", role: t.about.carlosRole, photo: "https://bgapniabglowonophvaz.supabase.co/storage/v1/object/public/project-photos/team/carlos-guerrero.webp", description: t.about.carlosDesc },
   ];
 
   return (
