@@ -10,7 +10,7 @@ const Footer = () => {
         {/* Logo + Copyright */}
         <div className="flex flex-col items-center text-center gap-4">
           <div className="flex items-center gap-3">
-            <img src={logoIcon} alt="MGP Capital Group LLC" className="h-20 w-20 sm:h-24 sm:w-24 rounded-full flex-shrink-0" />
+            <img src={logoIcon} alt="MGP Capital Group LLC" className="h-28 w-28 sm:h-36 sm:w-36 rounded-full flex-shrink-0" />
             <div className="text-left">
               <span className="text-white font-bold text-sm sm:text-base tracking-wide">MGP CAPITAL</span>
               <span className="block text-[9px] sm:text-[10px] text-gray-400 tracking-widest uppercase">Group LLC</span>
