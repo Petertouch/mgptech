@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import type { Profile } from "@/types/auth";
+import { sendEventEmail } from "@/lib/email";
 
 export function useAdminInvestors() {
   return useQuery({
@@ -65,6 +66,18 @@ export function useCreateInvestor() {
           .update({ phone })
           .eq("id", data.user.id);
       }
+
+      // Send welcome email
+      sendEventEmail({
+        eventKey: "investor_welcome",
+        to: email,
+        recipientId: data.user?.id,
+        variables: {
+          investor_name: fullName,
+          investor_email: email,
+          login_url: "https://grupomgp.com/login",
+        },
+      });
 
       return data.user;
     },

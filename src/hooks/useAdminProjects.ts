@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import type { Project, ProjectPhase, PhasePhoto, ProjectDocument, ProjectImage, ProjectWithInvestment, PhaseWithPhotos } from "@/types/project";
+import { sendEventEmail, sendToProjectInvestors } from "@/lib/email";
 
 export function useAdminProjects() {
   return useQuery({
@@ -57,6 +58,9 @@ export function useUpdateProject() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Project> & { id: string }) => {
+      // Get old status before update
+      const { data: old } = await supabase.from("projects").select("status, name, location").eq("id", id).single();
+
       const { data, error } = await supabase
         .from("projects")
         .update(updates)
@@ -64,6 +68,20 @@ export function useUpdateProject() {
         .select()
         .single();
       if (error) throw error;
+
+      // Email on status change
+      if (updates.status && old && updates.status !== old.status) {
+        const eventKey = updates.status === "completed" ? "project_completed" as const : "project_status_changed" as const;
+        sendToProjectInvestors(id, eventKey, {
+          project_name: old.name,
+          project_location: old.location || "",
+          old_status: old.status,
+          new_status: updates.status,
+          sale_value: String((data as Record<string, unknown>).sale_value || ""),
+          dashboard_url: "https://grupomgp.com/dashboard",
+        });
+      }
+
       return data;
     },
     onSuccess: (_, vars) => {
@@ -95,6 +113,33 @@ export function useUpdatePhase() {
         .select()
         .single();
       if (error) throw error;
+
+      // Email on phase status change
+      if (updates.status === "in_progress" || updates.status === "completed") {
+        const { data: project } = await supabase.from("projects").select("name").eq("id", data.project_id).single();
+        const eventKey = updates.status === "completed" ? "phase_completed" as const : "phase_started" as const;
+
+        // Get next phase name for completed events
+        let nextPhaseName = "";
+        if (updates.status === "completed") {
+          const { data: nextPhase } = await supabase
+            .from("project_phases")
+            .select("phase_name")
+            .eq("project_id", data.project_id)
+            .eq("phase_number", data.phase_number + 1)
+            .single();
+          nextPhaseName = nextPhase?.phase_name || "Finalizado";
+        }
+
+        sendToProjectInvestors(data.project_id, eventKey, {
+          project_name: project?.name || "",
+          phase_name: data.phase_name,
+          phase_number: String(data.phase_number),
+          next_phase_name: nextPhaseName,
+          dashboard_url: "https://grupomgp.com/dashboard",
+        });
+      }
+
       return data;
     },
     onSuccess: (data) => {
@@ -188,6 +233,35 @@ export function useUploadDocument() {
         document_type: documentType,
       });
       if (error) throw error;
+
+      // Email notification
+      const { data: project } = await supabase.from("projects").select("name").eq("id", projectId).single();
+      const eventKey = investorId ? "document_uploaded_private" as const : "document_uploaded" as const;
+
+      if (investorId) {
+        const { data: investor } = await supabase.from("profiles").select("full_name, email").eq("id", investorId).single();
+        if (investor?.email) {
+          sendEventEmail({
+            eventKey,
+            to: investor.email,
+            recipientId: investorId,
+            variables: {
+              investor_name: investor.full_name,
+              project_name: project?.name || "",
+              document_name: name,
+              document_type: documentType,
+              dashboard_url: "https://grupomgp.com/dashboard",
+            },
+          });
+        }
+      } else {
+        sendToProjectInvestors(projectId, eventKey, {
+          project_name: project?.name || "",
+          document_name: name,
+          document_type: documentType,
+          dashboard_url: "https://grupomgp.com/dashboard",
+        });
+      }
     },
     onSuccess: (_, vars) => {
       qc.invalidateQueries({ queryKey: ["admin-project", vars.projectId] });
@@ -230,6 +304,28 @@ export function useAssignInvestor() {
         investment_date: investmentDate,
       });
       if (error) throw error;
+
+      // Get project and investor info for email
+      const [{ data: project }, { data: investor }] = await Promise.all([
+        supabase.from("projects").select("name, location").eq("id", projectId).single(),
+        supabase.from("profiles").select("full_name, email").eq("id", investorId).single(),
+      ]);
+
+      if (investor?.email) {
+        sendEventEmail({
+          eventKey: "project_assigned",
+          to: investor.email,
+          recipientId: investorId,
+          variables: {
+            investor_name: investor.full_name,
+            project_name: project?.name || "",
+            project_location: project?.location || "",
+            invested_amount: `$${investedAmount.toLocaleString()}`,
+            investment_date: investmentDate,
+            dashboard_url: "https://grupomgp.com/dashboard",
+          },
+        });
+      }
     },
     onSuccess: (_, vars) => {
       qc.invalidateQueries({ queryKey: ["admin-project", vars.projectId] });
