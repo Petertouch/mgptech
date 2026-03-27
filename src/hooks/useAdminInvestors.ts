@@ -7,13 +7,18 @@ const SUPABASE_URL = "https://ngklmluckyetcshnzpgv.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5na2xtbHVja3lldGNzaG56cGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NTcyOTEsImV4cCI6MjA5MDEzMzI5MX0.Gax424G3QueolbPjTkfmVGOZbBfVVDnpLacZ15KolKA";
 
 async function callAdminUsers(action: string, payload: Record<string, unknown>) {
-  const { data: { session } } = await supabase.auth.getSession();
+  // Force token refresh to ensure valid session
+  const { data: { session }, error: sessionError } = await supabase.auth.refreshSession();
+
+  if (sessionError || !session) {
+    throw new Error("Sesión expirada. Por favor, cierra sesión y vuelve a entrar.");
+  }
 
   const response = await fetch(`${SUPABASE_URL}/functions/v1/admin-users`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${session?.access_token ?? ""}`,
+      Authorization: `Bearer ${session.access_token}`,
       apikey: SUPABASE_ANON_KEY,
     },
     body: JSON.stringify({ action, ...payload }),

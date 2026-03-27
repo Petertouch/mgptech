@@ -39,8 +39,8 @@ export default function AdminInvestors() {
     try {
       await deleteInvestor.mutateAsync(id);
       toast({ title: "Inversionista eliminado" });
-    } catch {
-      toast({ title: "Error al eliminar", variant: "destructive" });
+    } catch (err: unknown) {
+      toast({ title: `Error: ${err instanceof Error ? err.message : "Error al eliminar"}`, variant: "destructive" });
     }
   };
 

@@ -1,13 +1,58 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { useEmailTemplates, useDeleteEmailTemplate, useToggleEmailTemplate } from "@/hooks/useAdminEmailTemplates";
+import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Edit2, Loader2, Power, PowerOff, Mail } from "lucide-react";
+import { Plus, Trash2, Edit2, Loader2, Power, PowerOff, Mail, ScrollText, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { EMAIL_EVENTS } from "@/types/emailTemplate";
 import type { EmailEventKey } from "@/types/emailTemplate";
 
+interface EmailLog {
+  id: string;
+  event_key: string;
+  recipient_email: string;
+  subject: string;
+  status: "pending" | "sent" | "failed";
+  error_message: string | null;
+  sent_at: string | null;
+  created_at: string;
+  metadata: Record<string, string>;
+}
+
+function useEmailLogs() {
+  return useQuery({
+    queryKey: ["email-logs"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("email_logs")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (error) throw error;
+      return data as EmailLog[];
+    },
+  });
+}
+
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleDateString("es", { day: "2-digit", month: "short", year: "numeric" }) +
+    " " +
+    d.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
+}
+
+const statusConfig = {
+  sent: { icon: CheckCircle2, color: "text-green-400", bg: "bg-green-400/10", label: "Enviado" },
+  failed: { icon: XCircle, color: "text-red-400", bg: "bg-red-400/10", label: "Fallido" },
+  pending: { icon: Clock, color: "text-yellow-400", bg: "bg-yellow-400/10", label: "Pendiente" },
+};
+
 export default function AdminEmailTemplates() {
+  const [tab, setTab] = useState<"templates" | "logs">("templates");
   const { data: templates, isLoading } = useEmailTemplates();
+  const { data: logs, isLoading: logsLoading } = useEmailLogs();
   const deleteTemplate = useDeleteEmailTemplate();
   const toggleTemplate = useToggleEmailTemplate();
   const { toast } = useToast();
@@ -31,111 +76,204 @@ export default function AdminEmailTemplates() {
     }
   };
 
-  // Count how many events don't have templates yet
   const usedEvents = new Set(templates?.map((t) => t.event_key) ?? []);
   const totalEvents = Object.keys(EMAIL_EVENTS).length;
   const configured = usedEvents.size;
+
+  const sentCount = logs?.filter((l) => l.status === "sent").length ?? 0;
+  const failedCount = logs?.filter((l) => l.status === "failed").length ?? 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Plantillas de Email</h1>
-          <p className="text-gray-400 mt-1">
-            {configured} de {totalEvents} eventos configurados
-          </p>
+          <h1 className="text-2xl font-bold text-white">Email</h1>
+          <p className="text-gray-400 mt-1">Plantillas y registro de envíos</p>
         </div>
-        <Link to="/admin/email-templates/new">
-          <Button className="bg-[#D4AF37] hover:bg-[#A88C2C]">
-            <Plus className="h-4 w-4 mr-2" /> Nueva Plantilla
-          </Button>
-        </Link>
+        {tab === "templates" && (
+          <Link to="/admin/email-templates/new">
+            <Button className="bg-[#D4AF37] hover:bg-[#A88C2C]">
+              <Plus className="h-4 w-4 mr-2" /> Nueva Plantilla
+            </Button>
+          </Link>
+        )}
       </div>
 
-      {isLoading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {templates?.map((template) => {
-            const eventInfo = EMAIL_EVENTS[template.event_key as EmailEventKey];
-            return (
-              <div
-                key={template.id}
-                className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10"
-              >
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${template.is_active ? "bg-[#D4AF37]/10" : "bg-white/5"}`}>
-                  <Mail className={`h-5 w-5 ${template.is_active ? "text-[#D4AF37]" : "text-gray-600"}`} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-white truncate">{template.name}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-gray-400 font-mono">
-                      {template.event_key}
-                    </span>
-                    <span className="text-xs text-gray-500 truncate">
-                      {template.subject}
-                    </span>
+      {/* Tabs */}
+      <div className="flex gap-1 bg-white/5 p-1 rounded-xl">
+        <button
+          onClick={() => setTab("templates")}
+          className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
+            tab === "templates" ? "bg-[#D4AF37]/20 text-[#D4AF37]" : "text-gray-400 hover:text-white"
+          }`}
+        >
+          <Mail className="h-4 w-4" />
+          Plantillas
+          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10">{configured}/{totalEvents}</span>
+        </button>
+        <button
+          onClick={() => setTab("logs")}
+          className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
+            tab === "logs" ? "bg-[#D4AF37]/20 text-[#D4AF37]" : "text-gray-400 hover:text-white"
+          }`}
+        >
+          <ScrollText className="h-4 w-4" />
+          Logs
+          {(logs?.length ?? 0) > 0 && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10">
+              {sentCount} <span className="text-green-400">ok</span>
+              {failedCount > 0 && <> · {failedCount} <span className="text-red-400">err</span></>}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {/* Templates Tab */}
+      {tab === "templates" && (
+        <>
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {templates?.map((template) => {
+                const eventInfo = EMAIL_EVENTS[template.event_key as EmailEventKey];
+                return (
+                  <div
+                    key={template.id}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10"
+                  >
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${template.is_active ? "bg-[#D4AF37]/10" : "bg-white/5"}`}>
+                      <Mail className={`h-5 w-5 ${template.is_active ? "text-[#D4AF37]" : "text-gray-600"}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white truncate">{template.name}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-gray-400 font-mono">
+                          {template.event_key}
+                        </span>
+                        <span className="text-xs text-gray-500 truncate">
+                          {template.subject}
+                        </span>
+                      </div>
+                      {eventInfo && (
+                        <p className="text-[11px] text-gray-600 mt-0.5">{eventInfo.description}</p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => handleToggle(template.id, template.is_active)}
+                      className={`p-2 rounded-lg transition-colors ${
+                        template.is_active
+                          ? "text-green-400 hover:bg-green-500/20"
+                          : "text-gray-600 hover:bg-white/10"
+                      }`}
+                      title={template.is_active ? "Desactivar" : "Activar"}
+                    >
+                      {template.is_active ? <Power className="h-4 w-4" /> : <PowerOff className="h-4 w-4" />}
+                    </button>
+                    <Link
+                      to={`/admin/email-templates/${template.id}`}
+                      className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(template.id, template.name)}
+                      className="p-2 rounded-lg hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
-                  {eventInfo && (
-                    <p className="text-[11px] text-gray-600 mt-0.5">{eventInfo.description}</p>
-                  )}
+                );
+              })}
+              {templates?.length === 0 && (
+                <div className="text-center py-12">
+                  <Mail className="h-12 w-12 text-gray-700 mx-auto mb-3" />
+                  <p className="text-gray-500">No hay plantillas aún.</p>
                 </div>
-                <button
-                  onClick={() => handleToggle(template.id, template.is_active)}
-                  className={`p-2 rounded-lg transition-colors ${
-                    template.is_active
-                      ? "text-green-400 hover:bg-green-500/20"
-                      : "text-gray-600 hover:bg-white/10"
-                  }`}
-                  title={template.is_active ? "Desactivar" : "Activar"}
-                >
-                  {template.is_active ? <Power className="h-4 w-4" /> : <PowerOff className="h-4 w-4" />}
-                </button>
-                <Link
-                  to={`/admin/email-templates/${template.id}`}
-                  className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-                >
-                  <Edit2 className="h-4 w-4" />
-                </Link>
-                <button
-                  onClick={() => handleDelete(template.id, template.name)}
-                  className="p-2 rounded-lg hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            );
-          })}
-          {templates?.length === 0 && (
-            <div className="text-center py-12">
-              <Mail className="h-12 w-12 text-gray-700 mx-auto mb-3" />
-              <p className="text-gray-500">No hay plantillas aún.</p>
-              <p className="text-gray-600 text-sm mt-1">Crea una plantilla para cada evento de la plataforma.</p>
+              )}
             </div>
           )}
-        </div>
+
+          {templates && templates.length > 0 && configured < totalEvents && (
+            <div className="mt-8">
+              <h2 className="text-sm font-medium text-gray-400 mb-3">Eventos sin plantilla</h2>
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(EMAIL_EVENTS) as EmailEventKey[])
+                  .filter((key) => !usedEvents.has(key))
+                  .map((key) => (
+                    <Link
+                      key={key}
+                      to={`/admin/email-templates/new?event=${key}`}
+                      className="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-colors"
+                    >
+                      + {EMAIL_EVENTS[key].label}
+                    </Link>
+                  ))}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Unconfigured events */}
-      {templates && templates.length > 0 && configured < totalEvents && (
-        <div className="mt-8">
-          <h2 className="text-sm font-medium text-gray-400 mb-3">Eventos sin plantilla</h2>
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(EMAIL_EVENTS) as EmailEventKey[])
-              .filter((key) => !usedEvents.has(key))
-              .map((key) => (
-                <Link
-                  key={key}
-                  to={`/admin/email-templates/new?event=${key}`}
-                  className="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-colors"
-                >
-                  + {EMAIL_EVENTS[key].label}
-                </Link>
-              ))}
-          </div>
-        </div>
+      {/* Logs Tab */}
+      {tab === "logs" && (
+        <>
+          {logsLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
+            </div>
+          ) : logs && logs.length > 0 ? (
+            <div className="space-y-2">
+              {logs.map((log) => {
+                const s = statusConfig[log.status];
+                const Icon = s.icon;
+                const eventInfo = EMAIL_EVENTS[log.event_key as EmailEventKey];
+                return (
+                  <div
+                    key={log.id}
+                    className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10"
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${s.bg}`}>
+                      <Icon className={`h-4 w-4 ${s.color}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium text-white truncate">{log.subject}</p>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${s.bg} ${s.color} font-medium flex-shrink-0`}>
+                          {s.label}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1 text-[11px] text-gray-500">
+                        <span className="font-mono">{log.recipient_email}</span>
+                        <span>·</span>
+                        <span className="px-1.5 py-0.5 rounded bg-white/5 text-gray-400">
+                          {eventInfo?.label || log.event_key}
+                        </span>
+                        <span>·</span>
+                        <span>{formatDate(log.created_at)}</span>
+                      </div>
+                      {log.status === "failed" && log.error_message && (
+                        <p className="text-[11px] text-red-400/80 mt-1 bg-red-400/5 px-2 py-1 rounded">
+                          {log.error_message.length > 200
+                            ? log.error_message.slice(0, 200) + "..."
+                            : log.error_message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <ScrollText className="h-12 w-12 text-gray-700 mx-auto mb-3" />
+              <p className="text-gray-500">No hay registros de email aún.</p>
+              <p className="text-gray-600 text-sm mt-1">Los envíos aparecerán aquí automáticamente.</p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

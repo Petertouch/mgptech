@@ -12,7 +12,7 @@ interface SendEmailParams {
 
 export async function sendEventEmail({ eventKey, to, variables, recipientId }: SendEmailParams): Promise<boolean> {
   try {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase.auth.refreshSession();
 
     const response = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
       method: "POST",

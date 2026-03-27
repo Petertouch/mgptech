@@ -94,9 +94,7 @@ serve(async (req) => {
     if (action === "delete") {
       const { userId } = payload;
 
-      const { error } = await supabaseAdmin.auth.admin.deleteUser(userId, {
-        shouldSoftDelete: false,
-      });
+      const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
 
       if (error) {
         return new Response(
