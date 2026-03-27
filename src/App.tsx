@@ -22,6 +22,8 @@ import AdminInvestors from "./pages/admin/AdminInvestors";
 import AdminBlog from "./pages/admin/AdminBlog";
 import AdminBlogEdit from "./pages/admin/AdminBlogEdit";
 import AdminContacto from "./pages/admin/AdminContacto";
+import AdminEmailTemplates from "./pages/admin/AdminEmailTemplates";
+import AdminEmailTemplateEdit from "./pages/admin/AdminEmailTemplateEdit";
 import Servicios from "./pages/Servicios";
 import About from "./pages/About";
 
@@ -68,6 +70,8 @@ const App = () => (
                 <Route path="investors" element={<AdminInvestors />} />
                 <Route path="blog" element={<AdminBlog />} />
                 <Route path="blog/:id" element={<AdminBlogEdit />} />
+                <Route path="email-templates" element={<AdminEmailTemplates />} />
+                <Route path="email-templates/:id" element={<AdminEmailTemplateEdit />} />
                 <Route path="contacto" element={<AdminContacto />} />
               </Route>
 
