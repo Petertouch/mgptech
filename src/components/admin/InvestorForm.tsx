@@ -59,20 +59,20 @@ export default function InvestorForm({ initialData, onSubmit, isEdit }: Investor
           placeholder="+57 312 442 6783"
         />
       </div>
-      {!isEdit && (
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Contraseña</label>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            className="bg-white/5 border-white/10 text-white"
-            placeholder="Mínimo 6 caracteres"
-          />
-        </div>
-      )}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-1">
+          {isEdit ? "Nueva Contraseña" : "Contraseña"}
+        </label>
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required={!isEdit}
+          minLength={6}
+          className="bg-white/5 border-white/10 text-white"
+          placeholder={isEdit ? "Dejar vacío para no cambiar" : "Mínimo 6 caracteres"}
+        />
+      </div>
       <Button type="submit" disabled={loading} className="bg-[#D4AF37] hover:bg-[#A88C2C]">
         {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
         {isEdit ? "Actualizar" : "Crear Inversionista"}

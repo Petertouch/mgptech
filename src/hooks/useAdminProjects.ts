@@ -114,6 +114,17 @@ export function useUpdatePhase() {
         .single();
       if (error) throw error;
 
+      // Email on report upload
+      if (updates.report_url) {
+        const { data: project } = await supabase.from("projects").select("name").eq("id", data.project_id).single();
+        sendToProjectInvestors(data.project_id, "phase_report_uploaded", {
+          project_name: project?.name || "",
+          phase_name: data.phase_name,
+          report_url: updates.report_url,
+          dashboard_url: "https://grupomgp.com/dashboard",
+        });
+      }
+
       // Email on phase status change
       if (updates.status === "in_progress" || updates.status === "completed") {
         const { data: project } = await supabase.from("projects").select("name").eq("id", data.project_id).single();
@@ -180,6 +191,16 @@ export function useUploadPhasePhoto() {
         caption,
       });
       if (error) throw error;
+
+      // Email notification for new photos
+      const { data: phase } = await supabase.from("project_phases").select("phase_name").eq("id", phaseId).single();
+      const { data: project } = await supabase.from("projects").select("name").eq("id", projectId).single();
+      sendToProjectInvestors(projectId, "phase_photos_added", {
+        project_name: project?.name || "",
+        phase_name: phase?.phase_name || "",
+        photo_count: "1",
+        dashboard_url: "https://grupomgp.com/dashboard",
+      });
     },
     onSuccess: (_, vars) => {
       qc.invalidateQueries({ queryKey: ["admin-project", vars.projectId] });
@@ -337,8 +358,33 @@ export function useRemoveInvestor() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, projectId }: { id: string; projectId: string }) => {
+      // Get investor and project info before deleting
+      const { data: assignment } = await supabase
+        .from("project_investors")
+        .select("investor_id, investor:profiles(full_name, email)")
+        .eq("id", id)
+        .single();
+
       const { error } = await supabase.from("project_investors").delete().eq("id", id);
       if (error) throw error;
+
+      // Send removal notification
+      if (assignment) {
+        const profile = assignment.investor as unknown as { full_name: string; email: string };
+        const { data: project } = await supabase.from("projects").select("name").eq("id", projectId).single();
+        if (profile?.email) {
+          sendEventEmail({
+            eventKey: "project_removed",
+            to: profile.email,
+            recipientId: assignment.investor_id,
+            variables: {
+              investor_name: profile.full_name,
+              project_name: project?.name || "",
+            },
+          });
+        }
+      }
+
       return projectId;
     },
     onSuccess: (projectId) => {

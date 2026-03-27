@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { supabase } from "@/lib/supabase";
 
 export interface ContactInfo {
   first_name: string;
@@ -47,7 +47,7 @@ export function useContactInfo() {
   return useQuery({
     queryKey: ["contact_info"],
     queryFn: async () => {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await supabase
         .from("blog_posts")
         .select("content")
         .eq("slug", CONTACT_SLUG)
@@ -71,20 +71,20 @@ export function useSaveContactInfo() {
       const jsonContent = JSON.stringify(contact);
 
       // Check if the special blog post exists
-      const { data: existing } = await supabaseAdmin
+      const { data: existing } = await supabase
         .from("blog_posts")
         .select("id")
         .eq("slug", CONTACT_SLUG)
         .maybeSingle();
 
       if (existing?.id) {
-        const { error } = await supabaseAdmin
+        const { error } = await supabase
           .from("blog_posts")
           .update({ content: jsonContent })
           .eq("id", existing.id);
         if (error) throw error;
       } else {
-        const { error } = await supabaseAdmin
+        const { error } = await supabase
           .from("blog_posts")
           .insert({
             title: "Contact QR Data",

@@ -1,8 +1,28 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { supabaseAdmin } from "@/lib/supabase-admin";
 import type { Profile } from "@/types/auth";
 import { sendEventEmail } from "@/lib/email";
+
+const SUPABASE_URL = "https://ngklmluckyetcshnzpgv.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5na2xtbHVja3lldGNzaG56cGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NTcyOTEsImV4cCI6MjA5MDEzMzI5MX0.Gax424G3QueolbPjTkfmVGOZbBfVVDnpLacZ15KolKA";
+
+async function callAdminUsers(action: string, payload: Record<string, unknown>) {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/admin-users`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.access_token ?? ""}`,
+      apikey: SUPABASE_ANON_KEY,
+    },
+    body: JSON.stringify({ action, ...payload }),
+  });
+
+  const result = await response.json();
+  if (result.error) throw new Error(result.error);
+  return result;
+}
 
 export function useAdminInvestors() {
   return useQuery({
@@ -11,7 +31,6 @@ export function useAdminInvestors() {
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("role", "investor")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -50,28 +69,13 @@ export function useCreateInvestor() {
       fullName: string;
       phone: string;
     }) => {
-      const { data, error } = await supabaseAdmin.auth.admin.createUser({
-        email,
-        password,
-        email_confirm: true,
-        user_metadata: { full_name: fullName, role: "investor" },
-      });
-
-      if (error) throw error;
-
-      // Update phone in profile
-      if (data.user && phone) {
-        await supabase
-          .from("profiles")
-          .update({ phone })
-          .eq("id", data.user.id);
-      }
+      const result = await callAdminUsers("create", { email, password, fullName, phone });
 
       // Send welcome email
       sendEventEmail({
         eventKey: "investor_welcome",
         to: email,
-        recipientId: data.user?.id,
+        recipientId: result.user?.id,
         variables: {
           investor_name: fullName,
           investor_email: email,
@@ -79,7 +83,7 @@ export function useCreateInvestor() {
         },
       });
 
-      return data.user;
+      return result.user;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-investors"] }),
   });
@@ -93,17 +97,24 @@ export function useUpdateInvestor() {
       fullName,
       phone,
       email,
+      password,
     }: {
       id: string;
       fullName: string;
       phone: string;
       email: string;
+      password?: string;
     }) => {
       const { error } = await supabase
         .from("profiles")
         .update({ full_name: fullName, phone, email })
         .eq("id", id);
       if (error) throw error;
+
+      // Update password if provided
+      if (password && password.length >= 6) {
+        await callAdminUsers("update_password", { userId: id, password });
+      }
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-investors"] }),
   });
@@ -113,8 +124,7 @@ export function useDeleteInvestor() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabaseAdmin.auth.admin.deleteUser(id);
-      if (error) throw error;
+      await callAdminUsers("delete", { userId: id });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-investors"] }),
   });

@@ -29,6 +29,7 @@ import About from "./pages/About";
 
 import Contacto from "./pages/Contacto";
 import NotFound from "./pages/NotFound";
+import ChatWidget from "@/components/ChatWidget";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -79,6 +80,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+          <ChatWidget />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>

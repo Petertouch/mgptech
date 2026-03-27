@@ -129,11 +129,45 @@ CREATE TABLE IF NOT EXISTS blog_posts (
 CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
 CREATE INDEX IF NOT EXISTS idx_blog_published ON blog_posts(is_published);
 
+-- 9. EMAIL_TEMPLATES
+CREATE TABLE IF NOT EXISTS email_templates (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  event_key TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  body_html TEXT NOT NULL,
+  description TEXT DEFAULT '',
+  is_active BOOLEAN NOT NULL DEFAULT true,
+  available_variables TEXT[] DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_email_templates_event ON email_templates(event_key);
+
+-- 10. EMAIL_LOGS
+CREATE TABLE IF NOT EXISTS email_logs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  template_id UUID REFERENCES email_templates(id) ON DELETE SET NULL,
+  event_key TEXT NOT NULL,
+  recipient_email TEXT NOT NULL,
+  recipient_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  subject TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'sent', 'failed')),
+  error_message TEXT,
+  sent_at TIMESTAMPTZ,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_email_logs_event ON email_logs(event_key);
+CREATE INDEX IF NOT EXISTS idx_email_logs_recipient ON email_logs(recipient_email);
+CREATE INDEX IF NOT EXISTS idx_email_logs_status ON email_logs(status);
+
 -- TRIGGERS
 CREATE TRIGGER profiles_updated BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER projects_updated BEFORE UPDATE ON projects FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER phases_updated BEFORE UPDATE ON project_phases FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER blog_updated BEFORE UPDATE ON blog_posts FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER email_templates_updated BEFORE UPDATE ON email_templates FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Auto-create profile on auth user creation
 CREATE OR REPLACE FUNCTION handle_new_user_profile()
@@ -182,6 +216,8 @@ ALTER TABLE phase_photos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE project_documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE email_templates ENABLE ROW LEVEL SECURITY;
+ALTER TABLE email_logs ENABLE ROW LEVEL SECURITY;
 
 -- Helper functions
 CREATE OR REPLACE FUNCTION is_admin()
@@ -233,6 +269,14 @@ CREATE POLICY "Admins full docs" ON project_documents FOR ALL USING (is_admin())
 -- BLOG_POSTS policies
 CREATE POLICY "Published blogs public" ON blog_posts FOR SELECT USING (is_published = true);
 CREATE POLICY "Admins full blog" ON blog_posts FOR ALL USING (is_admin()) WITH CHECK (is_admin());
+
+-- EMAIL_TEMPLATES policies
+CREATE POLICY "Admins manage email templates" ON email_templates FOR ALL USING (is_admin()) WITH CHECK (is_admin());
+CREATE POLICY "Service read email templates" ON email_templates FOR SELECT USING (true);
+
+-- EMAIL_LOGS policies
+CREATE POLICY "Admins read email logs" ON email_logs FOR ALL USING (is_admin()) WITH CHECK (is_admin());
+CREATE POLICY "Service insert email logs" ON email_logs FOR INSERT WITH CHECK (true);
 
 -- STORAGE BUCKETS
 INSERT INTO storage.buckets (id, name, public) VALUES ('project-photos', 'project-photos', true) ON CONFLICT DO NOTHING;

@@ -24,10 +24,10 @@ export default function AdminInvestors() {
     }
   };
 
-  const handleUpdate = async (id: string, data: { fullName: string; email: string; phone: string }) => {
+  const handleUpdate = async (id: string, data: { fullName: string; email: string; phone: string; password: string }) => {
     try {
-      await updateInvestor.mutateAsync({ id, ...data });
-      toast({ title: "Inversionista actualizado" });
+      await updateInvestor.mutateAsync({ id, ...data, password: data.password || undefined });
+      toast({ title: data.password ? "Inversionista y contraseña actualizados" : "Inversionista actualizado" });
       setEditingId(null);
     } catch {
       toast({ title: "Error al actualizar", variant: "destructive" });
@@ -83,7 +83,12 @@ export default function AdminInvestors() {
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-white">{investor.full_name}</p>
+                  <p className="font-medium text-white">
+                    {investor.full_name}
+                    {investor.role === "super_admin" && (
+                      <span className="ml-2 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-[#D4AF37]/20 text-[#D4AF37] uppercase">Admin</span>
+                    )}
+                  </p>
                   <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
                     <span className="flex items-center gap-1">
                       <Mail className="h-3 w-3" /> {investor.email}
