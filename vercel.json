@@ -1,10 +1,10 @@
 {
   "redirects": [
-    { "source": "/admin", "destination": "https://ogfrealstate.com/admin", "permanent": false },
-    { "source": "/admin/:path*", "destination": "https://ogfrealstate.com/admin/:path*", "permanent": false },
-    { "source": "/login", "destination": "https://ogfrealstate.com/login", "permanent": false },
-    { "source": "/dashboard", "destination": "https://ogfrealstate.com/dashboard", "permanent": false },
-    { "source": "/dashboard/:path*", "destination": "https://ogfrealstate.com/dashboard/:path*", "permanent": false }
+    { "source": "/admin", "destination": "https://ogfrealstate.com/admin?ref=mgp", "permanent": false },
+    { "source": "/admin/:path*", "destination": "https://ogfrealstate.com/admin/:path*?ref=mgp", "permanent": false },
+    { "source": "/login", "destination": "https://ogfrealstate.com/login?ref=mgp", "permanent": false },
+    { "source": "/dashboard", "destination": "https://ogfrealstate.com/dashboard?ref=mgp", "permanent": false },
+    { "source": "/dashboard/:path*", "destination": "https://ogfrealstate.com/dashboard/:path*?ref=mgp", "permanent": false }
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
