@@ -289,9 +289,9 @@ function PublicProjects({ onStickyChange }: { onStickyChange: (sticky: boolean) 
         )}
 
         <div className="text-center mt-6 sm:mt-8">
-          <Link to="/login" className="inline-flex items-center gap-2 text-[#D4AF37] hover:underline text-xs sm:text-sm font-medium">
+          <a href="https://ogfrealstate.com/login?ref=mgp" className="inline-flex items-center gap-2 text-[#D4AF37] hover:underline text-xs sm:text-sm font-medium">
             {t.projects.portalCta}
-          </Link>
+          </a>
         </div>
       </div>
       {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}

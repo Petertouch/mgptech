@@ -236,14 +236,14 @@ export default function ChatWidget() {
                 >
                   <LogOut className="h-4 w-4" />
                 </button>
-              ) : !showLogin ? (
-                <button
-                  onClick={() => setShowLogin(true)}
+              ) : (
+                <a
+                  href="https://ogfrealstate.com/login?ref=mgp"
                   className="px-2.5 py-1 rounded-lg bg-[#D4AF37]/15 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-semibold hover:bg-[#D4AF37]/25 transition-colors flex items-center gap-1"
                 >
                   <LogIn className="h-3 w-3" /> Login
-                </button>
-              ) : null}
+                </a>
+              )}
               <button
                 onClick={() => setOpen(false)}
                 className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"

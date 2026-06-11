@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    { "source": "/admin", "destination": "https://ogfrealstate.com/admin", "permanent": false },
+    { "source": "/admin/:path*", "destination": "https://ogfrealstate.com/admin/:path*", "permanent": false },
+    { "source": "/login", "destination": "https://ogfrealstate.com/login", "permanent": false },
+    { "source": "/dashboard", "destination": "https://ogfrealstate.com/dashboard", "permanent": false },
+    { "source": "/dashboard/:path*", "destination": "https://ogfrealstate.com/dashboard/:path*", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/robots.txt" },

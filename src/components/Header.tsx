@@ -86,60 +86,13 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-3">
-          {/* Auth section */}
-          {!loading && (
-            user ? (
-              <div className="relative" ref={menuRef}>
-                <button
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 transition-colors"
-                >
-                  <div className="w-7 h-7 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
-                    <User className="h-3.5 w-3.5 text-[#D4AF37]" />
-                  </div>
-                  <span className="text-sm text-white hidden sm:inline">
-                    {profile?.full_name?.split(" ")[0]}
-                  </span>
-                </button>
-
-                {menuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[#0B1F3A] border border-white/10 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
-                    {isInvestor && (
-                      <Link
-                        to="/dashboard"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5"
-                      >
-                        <LayoutDashboard className="h-4 w-4" /> {t.nav.dashboard}
-                      </Link>
-                    )}
-                    {isAdmin && (
-                      <Link
-                        to="/admin"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5"
-                      >
-                        <Shield className="h-4 w-4" /> {t.nav.admin}
-                      </Link>
-                    )}
-                    <button
-                      onClick={() => { logout(); setMenuOpen(false); }}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-red-400 hover:bg-white/5 w-full"
-                    >
-                      <LogOut className="h-4 w-4" /> {t.nav.logout}
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                to="/login"
-                className="hidden sm:flex bg-[#D4AF37] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#A88C2C] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/25 items-center gap-2"
-              >
-                {t.nav.portal}
-              </Link>
-            )
-          )}
+          {/* Portal de inversionistas / admin: vive en OGF (ogfrealstate.com) */}
+          <a
+            href="https://ogfrealstate.com/login?ref=mgp"
+            className="hidden sm:flex bg-[#D4AF37] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#A88C2C] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/25 items-center gap-2"
+          >
+            {t.nav.portal}
+          </a>
 
           {/* Mobile hamburger */}
           <button
@@ -181,17 +134,15 @@ const Header = ({ hidden = false }: { hidden?: boolean }) => {
               {t.nav.blog}
             </Link>
 
-            {!loading && !user && (
-              <div className="pt-8">
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 bg-[#D4AF37] text-white w-full py-4 rounded-xl font-semibold text-base hover:bg-[#A88C2C] transition-colors"
-                >
-                  {t.nav.portal}
-                </Link>
-              </div>
-            )}
+            <div className="pt-8">
+              <a
+                href="https://ogfrealstate.com/login?ref=mgp"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 bg-[#D4AF37] text-white w-full py-4 rounded-xl font-semibold text-base hover:bg-[#A88C2C] transition-colors"
+              >
+                {t.nav.portal}
+              </a>
+            </div>
           </nav>
         </div>
       )}
